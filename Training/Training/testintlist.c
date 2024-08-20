@@ -10,114 +10,113 @@
 #include "intlist.h"
 
 int main () {
-
 	//Create
 	printf ("Create\n");
-	struct Node* head = Create ();
+	struct LinkedList* list = Create ();
 	printf ("Case1\n");
 	printf ("Expected: 0000000000000000\n");
-	printf ("Output:   %p\n\n", head);
+	printf ("Output:   %p\n\n", list->head);
 
 	//Add
-	//Adding to empty list
+	//Adding to an empty list
 	printf ("Add\n");
 	printf ("Case2\n");
 	printf ("Expected: 0\n");
-	printf ("Output: %d\n\n", Add (&head, 10));
+	printf ("Output: %d\n\n", Add (list, 10));
 
 	//Adding to a deleted list
 	printf ("Case3\n");
-	Delete (&head);
-	printf ("Expected: -4\n");
-	printf ("Output: %d\n\n", Add (&head, 20));
+	Delete (list);
+	printf ("Expected: %d\n", E_LIST_DNE);
+	printf ("Output: %d\n\n", Add (list, 20));
 
 
 	//Delete
 	//Deleting a list
 	printf ("Delete\n");
 	printf ("Case4\n");
-	head = Create ();
+	list = Create ();
 	printf ("Expected: 0\n");
-	printf ("Output: %d\n\n", Delete (&head));
+	printf ("Output: %d\n\n", Delete (list));
 
 	//Deleting a deleted list
 	printf ("Case5\n");
-	printf ("Expected: -4\n");
-	printf ("Output: %d\n\n", Delete (&head));
+	printf ("Expected: %d\n", E_LIST_DNE);
+	printf ("Output: %d\n\n", Delete (list));
 
 
 	//Insert
 	//Inserting into a deleted list
 	printf ("Insert\n");
 	printf ("Case6\n");
-	printf ("Expected: -4\n");
-	printf ("Output: %d\n\n", Insert (&head, 3, 20));
+	printf ("Expected: %d\n", E_LIST_DNE);
+	printf ("Output: %d\n\n", Insert (list, 3, 20));
 
 	//Inserting into an invalid index
-	head = Create ();
+	list = Create ();
 	printf ("Case7\n");
-	printf ("Expected: -2\n");
-	printf ("Output: %d\n\n", Insert (&head, 3, 20));
+	printf ("Expected: %d\n", E_INVALID_INDEX);
+	printf ("Output: %d\n\n", Insert (list, 3, 20));
 
 	//Inserting into a valid index
 	printf ("Case8\n");
 	printf ("Expected: 0\n");
-	printf ("Output: %d\n\n", Insert (&head, 0, 20));
+	printf ("Output: %d\n\n", Insert (list, 0, 20));
 
 
 	//RemoveAt
 	//When the list doesn't exist
 	printf ("RemoveAt\n");
-	Delete (&head);
+	Delete (list);
 	printf ("Case9\n");
-	printf ("Expected: -4\n");
-	printf ("Output: %d\n\n", RemoveAt (&head, 0));
+	printf ("Expected: %d\n", E_LIST_DNE);
+	printf ("Output: %d\n\n", RemoveAt (list, 0));
 
 	//When the list is empty
-	head = Create ();
+	list = Create ();
 	printf ("Case10\n");
-	printf ("Expected: -1\n");
-	printf ("Output: %d\n\n", RemoveAt (&head, 4));
+	printf ("Expected: %d\n", E_EMPTY_LIST);
+	printf ("Output: %d\n\n", RemoveAt (list, 4));
 
 	//Invalid Index
-	Add (&head, 20);
+	Add (list, 20);
 	printf ("Case11\n");
-	printf ("Expected: -2\n");
-	printf ("Output: %d\n\n", RemoveAt (&head, 4));
+	printf ("Expected: %d\n", E_INVALID_INDEX);
+	printf ("Output: %d\n\n", RemoveAt (list, 4));
 
 	//When index is valid
 	printf ("Case12\n");
 	printf ("Expected: 0\n");
-	printf ("Output: %d\n\n", RemoveAt (&head, 0));
+	printf ("Output: %d\n\n", RemoveAt (list, 0));
 
 
 	//Remove
 	// Removing when list does not exist
 	printf ("Remove\n");
-	Delete (&head);
+	Delete (list);
 	printf ("Case13\n");
-	printf ("Expected: -4\n");
-	printf ("Output: %d\n\n", Remove (&head, 20));
+	printf ("Expected: %d\n", E_LIST_DNE);
+	printf ("Output: %d\n\n", Remove (list, 20));
 
 	//Removing from an empty list
-	head = Create ();
+	list = Create ();
 	printf ("Case14\n");
-	printf ("Expected: -1\n");
-	printf ("Output: %d\n\n", Remove (&head, 20));
+	printf ("Expected: %d\n", E_EMPTY_LIST);
+	printf ("Output: %d\n\n", Remove (list, 20));
 
 	//Removing an invalid element
-	Add (&head, 20);
-	Add (&head, 20);
-	Add (&head, 20);
-	Add (&head, 20);
+	Add (list, 20);
+	Add (list, 20);
+	Add (list, 20);
+	Add (list, 20);
 	printf ("Case15\n");
-	printf ("Expected: -3\n");
-	printf ("Output: %d\n\n", Remove (&head, 30));
+	printf ("Expected: %d\n", E_INVALID_ELEMENT);
+	printf ("Output: %d\n\n", Remove (list, 30));
 
 	//Removing a valid element
 	printf ("Case15\n");
 	printf ("Expected: 0\n");
-	printf ("Output: %d\n\n", Remove (&head, 20));
+	printf ("Output: %d\n\n", Remove (list, 20));
 
 
 	//Count
@@ -125,38 +124,38 @@ int main () {
 	printf ("Count\n");
 	printf ("Case16\n");
 	printf ("Expected: 3\n");
-	printf ("Output: %d\n\n", Count (head));
+	printf ("Output: %d\n\n", Count (list));
 
 	//When list doesn't exists
-	Delete (&head);
+	Delete (list);
 	printf ("Case17\n");
-	printf ("Expected: -4\n");
-	printf ("Output: %d\n\n", Count (head));
+	printf ("Expected: %d\n", E_LIST_DNE);
+	printf ("Output: %d\n\n", Count (list));
 
 
 	//Get
 	// When list doesn't exist
 	printf ("Get\n");
 	printf ("Case18\n");
-	printf ("Expected: -4\n");
-	printf ("Output: %d\n\n", Get (head, 3));
+	printf ("Expected: %d\n", E_LIST_DNE);
+	printf ("Output: %d\n\n", Get (list, 3));
 
 	//When list is empty
-	head = Create ();
+	list = Create ();
 	printf ("Case19\n");
-	printf ("Expected: -1\n");
-	printf ("Output: %d\n\n", Get (head, 0));
+	printf ("Expected: %d\n", E_EMPTY_LIST);
+	printf ("Output: %d\n\n", Get (list, 0));
 
 	//When index is invalid
-	Add (&head, 20);
+	Add (list, 20);
 	printf ("Case20\n");
-	printf ("Expected: -2\n");
-	printf ("Output: %d\n\n", Get (head, 1));
+	printf ("Expected: %d\n", E_INVALID_INDEX);
+	printf ("Output: %d\n\n", Get (list, 1));
 
 	//When index is valid (Value at index 0 is 20)
 	printf ("Case20\n");
 	printf ("Expected: 20\n");
-	printf ("Output: %d\n\n", Get (head, 0));
+	printf ("Output: %d\n\n", Get (list, 0));
 
 	return 0;
 }

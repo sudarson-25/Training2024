@@ -1,17 +1,45 @@
 #pragma once
+#include<stdbool.h>
 
 // errors
-#define EMPTY_LIST -1
-#define INVALID_INDEX -2
-#define INALID_ELEMENT -3
-#define LIST_DOE -4
+#define E_EMPTY_LIST -1
+#define E_INVALID_INDEX -2
+#define E_INVALID_ELEMENT -3
+#define E_LIST_DNE -4
 
-struct Node* Create ();
+struct Node {
+	int data;
+	struct Node* next;
+};
+
+struct LinkedList {
+	struct Node* head;
+	bool isDeleted;  // bool variable to flag deleted lists
+};
+
+//Creates an empty linked list
+struct LinkedList* Create ();
+
+//Creates a node
 struct Node* CreateNode (int data);
-int Delete (struct Node** head);
-int Add (struct Node** head, int data);
-int Insert (struct Node** head, int ind, int data);
-int RemoveAt (struct Node** head, int ind);
-int Remove (struct Node** head, int ele);
-int Count (struct Node* head);
-int Get (struct Node* head, int ind);
+
+//Deletes the entire linked list
+int Delete (struct LinkedList* list);
+
+//Adds an element to the list
+int Add (struct LinkedList* list, int data);
+
+//Inserts an element at the specified index
+int Insert (struct LinkedList* list, int ind, int data);
+
+//Removes the element at the specified index
+int RemoveAt (struct LinkedList* list, int ind);
+
+//Removes the first occurance of the specified element from the list
+int Remove (struct LinkedList* list, int data);
+
+//Counts the number of elements in the list
+int Count (struct LinkedList* list);
+
+//Returns the element present at a specified index
+int Get (struct LinkedList* list, int ind);
