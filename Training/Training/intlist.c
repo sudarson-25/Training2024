@@ -248,11 +248,12 @@ int Count (struct LinkedList* list) {
 
 /// <summary>
 /// The flag ensures whether the list exists.
-/// Returns the value at a specified index if such index exists.
+/// Stores the value at a specified index if such an index exists in a pointer.
 /// </summary>
 /// <param name="list"></param>
 /// <param name="ind"></param>
-/// <returns>data</returns>
+/// <param name="data"></param>
+/// <returns>Error code (if any)</returns>
 int Get (struct LinkedList* list, int ind, int* data) {
 
 	if (list->isDeleted == true) {
