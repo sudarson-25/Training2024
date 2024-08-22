@@ -253,27 +253,33 @@ int Count (struct LinkedList* list) {
 /// <param name="list"></param>
 /// <param name="ind"></param>
 /// <returns>data</returns>
-int Get (struct LinkedList* list, int ind) {
+int Get (struct LinkedList* list, int ind, int* data) {
 
 	if (list->isDeleted == true) {
+		*data = NULL;
 		return E_LIST_DNE;
 	}
 
 	struct Node* current = list->head;
 
-	if (current == NULL)
+	if (current == NULL) {
+		*data = NULL;
 		return E_EMPTY_LIST;
+	}
 
 	// the index of the 
 	// node we're currently 
 	// looking at 
 	int count = 0;
 	while (current != NULL) {
-		if (count == ind)
-			return (current->data);
+		if (count == ind) {
+			*data = current->data;
+			return 0;
+		}
 		count++;
 		current = current->next;
 	}
 
+	*data = NULL;
 	return E_INVALID_INDEX;
 }

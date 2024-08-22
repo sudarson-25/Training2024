@@ -42,4 +42,4 @@ int Remove (struct LinkedList* list, int data);
 int Count (struct LinkedList* list);
 
 //Returns the element present at a specified index
-int Get (struct LinkedList* list, int ind);
+int Get (struct LinkedList* list, int ind, int* data);

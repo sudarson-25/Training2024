@@ -137,25 +137,27 @@ int main () {
 	// When list doesn't exist
 	printf ("Get\n");
 	printf ("Case18\n");
+	int data;
 	printf ("Expected: %d\n", E_LIST_DNE);
-	printf ("Output: %d\n\n", Get (list, 3));
+	printf ("Output: %d\n\n", Get (list, 3, &data));
 
 	//When list is empty
 	list = Create ();
 	printf ("Case19\n");
 	printf ("Expected: %d\n", E_EMPTY_LIST);
-	printf ("Output: %d\n\n", Get (list, 0));
+	printf ("Output: %d\n\n", Get (list, 0, &data));
 
 	//When index is invalid
 	Add (list, 20);
 	printf ("Case20\n");
 	printf ("Expected: %d\n", E_INVALID_INDEX);
-	printf ("Output: %d\n\n", Get (list, 1));
+	printf ("Output: %d\n\n", Get (list, 1, &data));
 
 	//When index is valid (Value at index 0 is 20)
 	printf ("Case20\n");
+	Get (list, 0, &data);
 	printf ("Expected: 20\n");
-	printf ("Output: %d\n\n", Get (list, 0));
+	printf ("Output: %d\n\n", data);
 
 	return 0;
 }
