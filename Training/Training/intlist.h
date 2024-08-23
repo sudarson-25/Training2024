@@ -2,11 +2,17 @@
 #include<stdbool.h>
 
 // errors
+/// <summary>Returned when list is empty</summary>
 #define E_EMPTY_LIST -1
+/// <summary>Returned when index is invalid</summary>
 #define E_INVALID_INDEX -2
+/// <summary>Returned when element is invalid</summary>
 #define E_INVALID_ELEMENT -3
+/// <summary>Returned when list does not exist</summary>
 #define E_LIST_DNE -4
+/// <summary>Returned when list is not created</summary>
 #define E_INVALID_LIST -5
+/// <summary>Returned when node is not created</summary>
 #define E_INVALID_NODE -6
 
 struct Node {
@@ -20,29 +26,29 @@ struct LinkedList {
    int count;
 };
 
-//Creates an empty linked list
+/// <summary>Creates an empty linked list</summary>
 struct LinkedList* Create ();
 
-//Creates a node
+/// <summary>Creates a node</summary>
 struct Node* CreateNode (int data);
 
-//Deletes the entire linked list
+/// <summary>Deletes the entire linked list</summary>
 int Delete (struct LinkedList* list);
 
-//Adds an element to the list
+/// <summary>Adds an element to the list</summary>
 int Add (struct LinkedList* list, int data);
 
-//Inserts an element at the specified index
+/// <summary>Inserts an element at the specified index</summary>
 int Insert (struct LinkedList* list, int ind, int data);
 
-//Removes the element at the specified index
+/// <summary>Removes the element at the specified index</summary>
 int RemoveAt (struct LinkedList* list, int ind);
 
-//Removes the first occurance of the specified element from the list
+/// <summary>Removes the first occurance of the specified element from the list</summary>
 int Remove (struct LinkedList* list, int data);
 
-//Counts the number of elements in the list
+/// <summary>Counts the number of elements in the list</summary>
 int Count (struct LinkedList* list);
 
-//Returns the element present at a specified index
+/// <summary>Returns the element present at a specified index</summary>
 int Get (struct LinkedList* list, int ind, int* data);

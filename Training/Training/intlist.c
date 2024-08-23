@@ -2,8 +2,6 @@
 #include <malloc.h>
 #include<stdbool.h>
 
-/// <summary>Returns pointer to a new LinkedList with head = NULL and isDeleted = false</summary>
-/// <returns>LinkedList pointer</returns>
 struct LinkedList* Create () {
    struct LinkedList* list = (struct LinkedList*)malloc (sizeof (struct LinkedList));
    if (list != NULL) {
@@ -15,11 +13,6 @@ struct LinkedList* Create () {
       return E_INVALID_LIST;
 }
 
-/// <summary>
-/// This function allocates space for a new Node structure and assigns values to its members
-/// </summary>
-/// <param name="data"></param>
-/// <returns>Node pointer</returns>
 struct Node* CreateNode (int data) {
    struct Node* newNode = (struct Node*)malloc (sizeof (struct Node));
    if (newNode != NULL) {
@@ -30,9 +23,6 @@ struct Node* CreateNode (int data) {
       return E_INVALID_NODE;
 }
 
-/// <summary>Deletes all the nodes</summary>
-/// <param name="list"></param>
-/// <returns>Error code (if any)</returns>
 int Delete (struct LinkedList* list) {
    if (list->isDeleted == true)
       return E_LIST_DNE;
@@ -50,13 +40,6 @@ int Delete (struct LinkedList* list) {
    return 0;
 }
 
-/// <summary>
-/// The flag ensures whether the list exists.
-/// Adds nodes to an existing list. 
-/// </summary>
-/// <param name="list"></param>
-/// <param name="data"></param>
-/// <returns>Error code (if any)</returns>
 int Add (struct LinkedList* list, int data) {
    if (list->isDeleted == true)
       return E_LIST_DNE;
@@ -78,14 +61,6 @@ int Add (struct LinkedList* list, int data) {
    return 0;
 }
 
-/// <summary>
-/// The flag ensures whether the list exists.
-/// Inserts a node at the specified index with the specified value into the list
-/// </summary>
-/// <param name="list"></param>
-/// <param name="ind"></param>
-/// <param name="data"></param>
-/// <returns>Error code (if any)</returns>
 int Insert (struct LinkedList* list, int ind, int data) {
    if (list->isDeleted == true)
       return E_LIST_DNE;
@@ -116,13 +91,6 @@ int Insert (struct LinkedList* list, int ind, int data) {
    return 0;
 }
 
-/// <summary>
-/// The flag ensures whether the list exists.
-/// Removes the node at a specified index from the list.
-/// </summary>
-/// <param name="list"></param>
-/// <param name="ind"></param>
-/// <returns>Error code (if any)</returns>
 int RemoveAt (struct LinkedList* list, int ind) {
    if (list->isDeleted == true)
       return E_LIST_DNE;
@@ -155,13 +123,6 @@ int RemoveAt (struct LinkedList* list, int ind) {
       return E_INVALID_INDEX;
 }
 
-/// <summary>
-/// The flag ensures whether the list exists.
-/// Removes the Node with the specified data value from the list.
-/// </summary>
-/// <param name="list"></param>
-/// <param name="data"></param>
-/// <returns>Error code (if any)</returns>
 int Remove (struct LinkedList* list, int data) {
    if (list->isDeleted == true)
       return E_LIST_DNE;
@@ -170,7 +131,7 @@ int Remove (struct LinkedList* list, int data) {
    // Store head node
    struct Node* temp = list->head;
    struct Node* prev = NULL;
-   // If head node itself holds the key to be deleted
+   // If head node itself holds the data to be deleted
    if (temp->data == data) {
       // Changed head
       list->head = temp->next;
@@ -178,7 +139,7 @@ int Remove (struct LinkedList* list, int data) {
       list->count--;
       return 0;
    }
-   // Search for the key to be deleted, keep track of the
+   // Search for the data to be deleted, keep track of the
    // previous node as we need to change 'prev->next'
    while (temp != NULL && temp->data != data) {
       prev = temp;
@@ -189,29 +150,15 @@ int Remove (struct LinkedList* list, int data) {
       free (temp);
       list->count--;
       return 0;
-   } else // If key was not present in linked list
+   } else // If data was not present in linked list
       return E_INVALID_ELEMENT;
 }
 
-/// <summary>
-/// The flag ensures whether the list exists.
-/// Counts the number of nodes in the list.
-/// </summary>
-/// <param name="list"></param>
-/// <returns>count/Error code (if any)</returns>
 int Count (struct LinkedList* list) {
    if (list->isDeleted == true) return E_LIST_DNE;
    return list->count;
 }
 
-/// <summary>
-/// The flag ensures whether the list exists.
-/// Stores the value at a specified index if such an index exists in a pointer.
-/// </summary>
-/// <param name="list"></param>
-/// <param name="ind"></param>
-/// <param name="data"></param>
-/// <returns>Error code (if any)</returns>
 int Get (struct LinkedList* list, int ind, int* data) {
    if (list->isDeleted == true) {
       *data = NULL;
