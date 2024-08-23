@@ -7,6 +7,7 @@
 #define E_INVALID_ELEMENT -3
 #define E_LIST_DNE -4
 #define E_INVALID_LIST -5
+#define E_INVALID_NODE -6
 
 struct Node {
    int data;
