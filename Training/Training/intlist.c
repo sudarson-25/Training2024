@@ -142,10 +142,11 @@ int RemoveAt (struct LinkedList* list, int ind) {
    // Traverse till given position
    int count = Count (list);
    if (ind >= 0 && ind < count) {
-      for (int i = 0; i < ind; i++) {
-         prev = temp;
+      for (int i = 0; i < ind - 1; i++) {
          temp = temp->next;
       }
+      prev = temp;
+      temp = temp->next;
       prev->next = temp->next;
       free (temp);
       list->count--;
@@ -164,13 +165,13 @@ int RemoveAt (struct LinkedList* list, int ind) {
 int Remove (struct LinkedList* list, int data) {
    if (list->isDeleted == true)
       return E_LIST_DNE;
+   if (list->head == NULL)
+      return E_EMPTY_LIST;
    // Store head node
    struct Node* temp = list->head;
    struct Node* prev = NULL;
-   if (temp == NULL)
-      return E_EMPTY_LIST;
    // If head node itself holds the key to be deleted
-   if (temp != NULL && temp->data == data) {
+   if (temp->data == data) {
       // Changed head
       list->head = temp->next;
       free (temp);
@@ -183,13 +184,12 @@ int Remove (struct LinkedList* list, int data) {
       prev = temp;
       temp = temp->next;
    }
-   // If key was not present in linked list
    if (temp != NULL) {
       prev->next = temp->next;
       free (temp);
       list->count--;
       return 0;
-   } else
+   } else // If key was not present in linked list
       return E_INVALID_ELEMENT;
 }
 
@@ -200,10 +200,8 @@ int Remove (struct LinkedList* list, int data) {
 /// <param name="list"></param>
 /// <returns>count/Error code (if any)</returns>
 int Count (struct LinkedList* list) {
-   if (list->isDeleted == true)
-      return E_LIST_DNE;
-   else
-      return list->count;
+   if (list->isDeleted == true) return E_LIST_DNE;
+   return list->count;
 }
 
 /// <summary>
