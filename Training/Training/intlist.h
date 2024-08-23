@@ -6,15 +6,17 @@
 #define E_INVALID_INDEX -2
 #define E_INVALID_ELEMENT -3
 #define E_LIST_DNE -4
+#define E_INVALID_LIST -5
 
 struct Node {
-	int data;
-	struct Node* next;
+   int data;
+   struct Node* next;
 };
 
 struct LinkedList {
-	struct Node* head;
-	bool isDeleted;  // bool variable to flag deleted lists
+   struct Node* head;
+   bool isDeleted;  // bool variable to flag deleted lists
+   int count;
 };
 
 //Creates an empty linked list
