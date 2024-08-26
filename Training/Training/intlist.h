@@ -10,10 +10,6 @@
 #define E_INVALID_ELEMENT -3
 /// <summary>Returned when list does not exist</summary>
 #define E_LIST_DNE -4
-/// <summary>Returned when list is not created</summary>
-#define E_INVALID_LIST -5
-/// <summary>Returned when node is not created</summary>
-#define E_INVALID_NODE -6
 
 struct Node {
    int data;

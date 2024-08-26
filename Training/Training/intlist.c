@@ -3,24 +3,28 @@
 #include<stdbool.h>
 
 struct LinkedList* Create () {
-   struct LinkedList* list = (struct LinkedList*)malloc (sizeof (struct LinkedList));
-   if (list != NULL) {
-      list->head = NULL;
-      list->isDeleted = false;
-      list->count = 0;
-      return list;
-   } else
-      return E_INVALID_LIST;
+   struct LinkedList* list = NULL;
+   do {
+      list = (struct LinkedList*)malloc (sizeof (struct LinkedList));
+      if (list != NULL) {
+         list->head = NULL;
+         list->isDeleted = false;
+         list->count = 0;
+      }
+   } while (list == NULL);
+   return list;
 }
 
 struct Node* CreateNode (int data) {
-   struct Node* newNode = (struct Node*)malloc (sizeof (struct Node));
-   if (newNode != NULL) {
-      newNode->data = data;
-      newNode->next = NULL;
-      return newNode;
-   } else
-      return E_INVALID_NODE;
+   struct Node* newNode = NULL;
+   do {
+      newNode = (struct Node*)malloc (sizeof (struct Node));
+      if (newNode != NULL) {
+         newNode->data = data;
+         newNode->next = NULL;
+      }
+   } while (newNode == NULL);
+   return newNode;
 }
 
 int Delete (struct LinkedList* list) {
@@ -161,11 +165,11 @@ int Count (struct LinkedList* list) {
 
 int Get (struct LinkedList* list, int ind, int* data) {
    if (list->isDeleted == true) {
-      *data = NULL;
+      *data = 0;
       return E_LIST_DNE;
    }
    if (list->head == NULL) {
-      *data = NULL;
+      *data = 0;
       return E_EMPTY_LIST;
    }
    struct Node* current = list->head;
@@ -179,6 +183,6 @@ int Get (struct LinkedList* list, int ind, int* data) {
       count++;
       current = current->next;
    }
-   *data = NULL;
+   *data = 0;
    return E_INVALID_INDEX;
 }
