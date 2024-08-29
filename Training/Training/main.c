@@ -4,18 +4,24 @@
 
 int mCount;
 
+//Function for counting the number of digits
+int count (int dec, int div) {
+   int c = 0;
+   while (dec > 0) {
+      dec /= div;
+      c++;
+   }
+   return c;
+}
+
 int* DecToBin (int dec) {
    mCount = 0;
-   int dec2 = dec, rem;
+   int dec2 = dec;
    if (dec < 0)
       dec *= -1;
    int dec1 = dec;
    //Counting the number of digits in binary representation
-   while (dec > 0) {
-      rem = dec % 2;
-      dec /= 2;
-      mCount++;
-   }
+   mCount = count (dec, 2);
    // Representing binary in multiples of 8-bits accordingly
    if (mCount % 8 != 0)
       mCount += (8 - (mCount % 8));
@@ -51,29 +57,25 @@ int* DecToBin (int dec) {
       }
       free (binRev);
       //Adding 1 to the the binary number (stored as individual digits)
-      for (int k = mCount - 1; k >= 0; k--)
+      for (int k = mCount - 1; k >= 0; k--) {
          if (binTwosComp[k] == 0) {
             binTwosComp[k] = 1;
             break;
-         } else {
+         } else
             binTwosComp[k] = 0;
-         }
+      }
       return binTwosComp;
    }
 }
 
 char* DecToHex (int dec) {
    mCount = 0;
-   int dec2 = dec, rem;
+   int dec2 = dec;
    if (dec < 0)
       dec *= -1;
    int dec1 = dec;
    //Counting the number of digits in hex representation
-   while (dec > 0) {
-      rem = dec % 16;
-      dec /= 16;
-      mCount++;
-   }
+   mCount = count (dec, 16);
    // Representing hex in multiples of 8-bits accordingly
    if (mCount % 8 != 0)
       mCount += (8 - (mCount % 8));
@@ -129,6 +131,7 @@ char* DecToHex (int dec) {
             digit = 0;
          }
       }
+      free (bin);
       while (ind < count) {
          hexNegRev[ind] = 'F';
          ind++;
@@ -150,17 +153,30 @@ char* DecToHex (int dec) {
 
 int main () {
    int dec;
-   printf ("Input (Enter an integer): ");
-   scanf_s ("%d", &dec);
-   int* bin = DecToBin (dec);
-   printf ("Binary (%d-bit): ", mCount);
-   for (int i = 0; i < mCount; i++)
-      printf ("%d", bin[i]);
-   char* hex = DecToHex (dec);
-   printf ("\nHEX (%d-bit): ", mCount);
-   for (int i = 0; i < mCount; i++)
-      printf ("%c", hex[i]);
-   free (bin);
-   free (hex);
+   char term;
+   while (1) {
+      printf ("Input (Enter an integer): ");
+      if (scanf_s ("%d%c", &dec, &term, 1) != 2 || term != '\n') {
+         printf ("\nEnter a valid input!\n");
+         //Draining the inputs from stdin
+         for (;;) {
+            term = fgetc (stdin);
+            if (term == EOF || term == '\n')
+               break;
+         }
+      } else {
+         int* bin = DecToBin (dec);
+         printf ("Binary (%d-bit): ", mCount);
+         for (int i = 0; i < mCount; i++)
+            printf ("%d", bin[i]);
+         char* hex = DecToHex (dec);
+         printf ("\nHEX (%d-bit): ", mCount);
+         for (int i = 0; i < mCount; i++)
+            printf ("%c", hex[i]);
+         free (bin);
+         free (hex);
+         printf ("\n\n");
+      }
+   }
    return 0;
 }
