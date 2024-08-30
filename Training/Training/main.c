@@ -7,6 +7,8 @@ int mCount;
 //Function for counting the number of digits
 int count (int dec, int div) {
    int c = 0;
+   if (dec == 0)
+      return 8;
    while (dec > 0) {
       dec /= div;
       c++;
@@ -157,13 +159,14 @@ int main () {
    while (1) {
       printf ("Input (Enter an integer): ");
       if (scanf_s ("%d%c", &dec, &term, 1) != 2 || term != '\n') {
-         printf ("\nEnter a valid input!\n");
+         printf ("Enter a valid input!");
          //Draining the inputs from stdin
          for (;;) {
             term = fgetc (stdin);
-            if (term == EOF || term == '\n')
+            if (term == '\n')
                break;
          }
+         printf ("\n\n");
       } else {
          int* bin = DecToBin (dec);
          printf ("Binary (%d-bit): ", mCount);
