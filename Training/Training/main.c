@@ -153,17 +153,9 @@ int main () {
          printf ("\n\n");
       } else {
          if (dec == 0) {
-            int converted[8];
-            for (int i = 0; i < 8; i++)
-               converted[i] = 0;
-            printf ("Binary (%d-bit): ", 8);
-            for (int i = 0; i < 8; i++) {
-               printf ("%d", converted[i]);
-            }
-            printf ("\nHEX (%d-bit): ", 8);
-            for (int i = 0; i < 8; i++) {
-               printf ("%d", converted[i]);
-            }
+            char converted[] = "00000000";
+            printf ("Binary (8-bit): %s", converted);
+            printf ("\nHEX (8-bit): %s", converted);
             printf ("\n\n");
          } else {
             int* bin = DecToBin (dec);
