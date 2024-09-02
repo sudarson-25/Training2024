@@ -112,7 +112,7 @@ char* DecToHex (int dec) {
       int ind = 0;
       //Converting binary to hex and storing into hexNegRev in reverse
       for (int i = mCount - 1; i >= 0; i--) {
-         digit += bin[i] * pow (2, place++);
+         digit += bin[i] * (int)pow (2, place++);
          icount++;
          if (icount == 4) {
             place = 0, icount = 0;
