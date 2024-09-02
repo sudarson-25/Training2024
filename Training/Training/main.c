@@ -55,9 +55,8 @@ int* DecToBin (int dec) {
          binTwosComp = (int*)malloc (mCount * sizeof (int));
       } while (binTwosComp == NULL);
       //Complimenting each element of the array
-      for (int k = 0; k < mCount; k++) {
+      for (int k = 0; k < mCount; k++)
          binTwosComp[k] = binRev[mCount - k - 1] == 0 ? 1 : 0;
-      }
       free (binRev);
       //Adding 1 to the the binary number (stored as individual digits)
       for (int k = mCount - 1; k >= 0; k--) {
@@ -113,21 +112,17 @@ char* DecToHex (int dec) {
       int ind = 0;
       //Converting binary to hex and storing into hexNegRev in reverse
       for (int i = mCount - 1; i >= 0; i--) {
-         digit += bin[i] * pow (2, place);
-         place++;
+         digit += bin[i] * pow (2, place++);
          icount++;
          if (icount == 4) {
             place = 0, icount = 0;
-            hexNegRev[ind] = digit >= 10 ? digit + 55 : digit + 48;
-            ind++;
+            hexNegRev[ind++] = digit >= 10 ? digit + 55 : digit + 48;
             digit = 0;
          }
       }
       free (bin);
-      while (ind < count) {
-         hexNegRev[ind] = 'F';
-         ind++;
-      }
+      while (ind < count)
+         hexNegRev[ind++] = 'F';
       mCount = count;
       char* hexNeg = NULL;
       do {
@@ -159,9 +154,8 @@ int main () {
       } else {
          if (dec == 0) {
             int converted[8];
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 8; i++)
                converted[i] = 0;
-            }
             printf ("Binary (%d-bit): ", 8);
             for (int i = 0; i < 8; i++) {
                printf ("%d", converted[i]);
