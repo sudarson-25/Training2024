@@ -9,14 +9,22 @@
 #include<stdio.h>
 #include<malloc.h>
 #include<math.h>
+#include<limits.h>
 
-int* DecToBin (int dec, int* digits1) {
+/// <summary>
+/// Function that counts the number of bits the binary/hex representation will occupy
+/// </summary>
+int DigitsCount (long long int dec, int div) {
+   return (int)((log ((double)dec) / log (div)) + 1);
+}
+
+int* DecToBin (long long int dec, int* digits1) {
    int digitsCount = 0;
-   int decReal = dec;
+   long long int decReal = dec;
    if (dec < 0) dec *= -1;
-   int decTemp = dec;
-   //Counting the number of bits the binary representation will occupy
-   digitsCount = (int)(ceil (log2 (dec)));
+   long long int decTemp = dec;
+
+   digitsCount = DigitsCount (dec, 2);
    // Representing binary in multiples of 8-bits accordingly
    if (digitsCount % 8 != 0) digitsCount += (8 - (digitsCount % 8));
    int* binRev = NULL;
@@ -59,13 +67,12 @@ int* DecToBin (int dec, int* digits1) {
    }
 }
 
-char* DecToHex (int dec, int* digits2) {
+char* DecToHex (long long int dec, int* digits2) {
    int digitsCount = 0;
-   int decReal = dec;
+   long long int decReal = dec;
    if (dec < 0) dec *= -1;
-   int decTemp = dec;
-   //Counting the number of bits the hex representation will occupy
-   digitsCount = (int)ceil ((log (dec) / log (16)));
+   long long int decTemp = dec;
+   digitsCount = DigitsCount (dec, 16);
    // Representing hex in multiples of 8-bits accordingly
    if (digitsCount % 8 != 0) digitsCount += (8 - (digitsCount % 8));
    char* hexRev = NULL;
@@ -131,11 +138,12 @@ char* DecToHex (int dec, int* digits2) {
 }
 
 int main () {
-   int dec, digits1, digits2;
+   long long int dec;
+   int digits1, digits2;
    char term;
    while (1) {
       printf ("Input (Enter an integer): ");
-      if (scanf_s ("%d%c", &dec, &term, 1) != 2 || term != '\n') {
+      if (scanf_s ("%lld%c", &dec, &term, 1) != 2 || term != '\n') {
          printf ("Enter a valid input!");
          //Draining the unassigned inputs from stdin
          for (; ; ) {
@@ -144,24 +152,28 @@ int main () {
          }
          printf ("\n\n");
       } else {
-         if (dec == 0) {
-            char converted[] = "00000000";
-            printf ("Binary (8-bit): %s", converted);
-            printf ("\nHEX (8-bit): %s", converted);
-            printf ("\n\n");
+         if (dec < INT_MIN || dec > INT_MAX) {
+            printf ("Input exceeds integer range\n\n");
          } else {
-            int* bin = DecToBin (dec, &digits1);
-            printf ("Binary (%d-bit): ", digits1);
-            for (int i = 0; i < digits1; i++)
-               printf ("%d", bin[i]);
-            char* hex = DecToHex (dec, &digits2);
-            printf ("\nHEX (%d-bit): ", digits2);
-            printf ("%s", hex);
-            free (bin);
-            free (hex);
-            printf ("\n\n");
+            if (dec == 0) {
+               char converted[] = "00000000";
+               printf ("Binary (8-bit): %s", converted);
+               printf ("\nHEX (8-bit): %s", converted);
+               printf ("\n\n");
+            } else {
+               int* bin = DecToBin (dec, &digits1);
+               printf ("Binary (%d-bit): ", digits1);
+               for (int i = 0; i < digits1; i++)
+                  printf ("%d", bin[i]);
+               char* hex = DecToHex (dec, &digits2);
+               printf ("\nHEX (%d-bit): ", digits2);
+               printf ("%s", hex);
+               free (bin);
+               free (hex);
+               printf ("\n\n");
+            }
+            return 0;
          }
       }
    }
-   return 0;
 }
