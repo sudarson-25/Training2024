@@ -27,7 +27,7 @@
 /// <summary>Function which checks if a given string is palindrome or not</summary>
 int PalindromeChecker (char* phrase) {
    int i = 0, j = 0, length;
-   char temp[MAX] = { '0' };
+   char temp[MAX] = "";
    length = (int)strlen (phrase);
    if (length > MAX - 2) {
       printf ("\nLimit exceeded");
@@ -102,7 +102,7 @@ void TestCases () {
 int main () {
    char ch = '\n', choice[3], * result, term;
    while (1) {
-      printf ("Menu\n~~~~\n1. Palindrome Checker\n2. Number Reverser\n3. Run Test Cases\n\nEnter your choice: ");
+      printf ("Menu\n~~~~\n1. Palindrome Checker\n2. Number Reverser\n3. Run Test Cases\n4. Exit\n\nEnter your choice: ");
       fgets (choice, sizeof (choice), stdin);
       result = strchr (choice, ch);
       if (result == NULL) {
@@ -154,14 +154,18 @@ int main () {
                   }
                   break;
                }
-            case '3': {
-                  printf ("\nTest Cases\n~~~~~~~~~~");
-                  TestCases ();
-                  break;
-               }
+            case '3':
+               printf ("\nTest Cases\n~~~~~~~~~~");
+               TestCases ();
+               break;
+            case '4':
+               break;
             default:
                printf ("Invalid Choice!\n");
          }
+      }
+      if (choice[0] == '4') {
+         break;
       }
       printf ("\n");
    }
