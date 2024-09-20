@@ -10,7 +10,6 @@
 #include <ctype.h>
 #include <errno.h>
 #include <limits.h>
-#include <malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,27 +26,26 @@
 
 /// <summary>Function which checks if a given string is palindrome or not</summary>
 int PalindromeChecker (char* phrase) {
-   int i = 0, j = 0, length;
-   char temp[MAX] = "";
+   int i = 0, j, length;
    length = (int)strlen (phrase);
-   if (length > MAX - 2) {
+   j = length - 1;
+   if (length > MAX - 2)
       return INVALID;
-   }
-   // Eliminating special characters by moving the remaining character into a temporary array
-   while (i < length) {
-      if (isalnum (phrase[i]) != 0)
-         temp[j++] = phrase[i];
-      i++;
-   }
-   temp[j] = '\0';
-   // Checking invalid text
-   if (j == 0)
-      return INVALID;
-   i = 0;
-   while (i < j / 2) {
-      if (toupper (temp[i]) != toupper (temp[j - 1 - i]))
-         return NOTPALINDROME;
-      i++;
+   // Checking if valid characters match with the valid characters  
+   while (i < length / 2 && j>length / 2) {
+      if (isalnum (phrase[i]) == 0)
+         i++;
+      else if (isalnum (phrase[j]) == 0)
+         j--;
+      else
+         if (isalnum (phrase[i]) != 0 && isalnum (phrase[j]) != 0) {
+            if (toupper (phrase[i]) != toupper (phrase[j]))
+               return NOTPALINDROME;
+            else {
+               i++;
+               j--;
+            }
+         }
    }
    return PALINDROME;
 }
@@ -55,6 +53,10 @@ int PalindromeChecker (char* phrase) {
 /// <summary>Function which checks if the input number is palindrome or not</summary>
 int NumberReverser (int number, long long int* rev) {
    int rem, numTemp;
+   if (number >= 0 && number <= 9) {
+      *rev = number;
+      return PALINDROME;
+   }
    numTemp = number;
    while (numTemp != 0) {
       rem = numTemp % 10;
@@ -76,45 +78,52 @@ void BufferDrain () {
 
 /// <summary>Function to run test cases</summary>
 void TestCases () {
-   int* strOutputs = NULL, * numOutputs = NULL, strLength, numLength;
+   int strLength, numLength, output,
+      numInputs[] = { 121,232,INT_MAX,INT_MIN,0 },
+      strExpected[] = { PALINDROME,PALINDROME,PALINDROME,NOTPALINDROME,NOTPALINDROME },
+      numExpected[] = { PALINDROME,PALINDROME,NOTPALINDROME,NOTPALINDROME,PALINDROME };
    long long int rev;
-   char* strInputs[] = { "Was it a car or a cat I saw?", "I did, did I?", "Don't nod", "TRUMPF", "Metamation" };
-   int numInputs[] = { 121,232,INT_MAX,INT_MIN,0 };
-   int strExpected[] = { PALINDROME,PALINDROME,PALINDROME,NOTPALINDROME,NOTPALINDROME };
-   int numExpected[] = { PALINDROME,PALINDROME,NOTPALINDROME,NOTPALINDROME,PALINDROME };
+   char* strInputs[] = { "Was it a car or a cat I saw?", "I did, did I?", "Don't nod", "TRUMPF",
+      "Metamation" };
    strLength = sizeof (strInputs) / sizeof (strInputs[0]);
    numLength = sizeof (numInputs) / sizeof (numInputs[0]);
-   do {
-      strOutputs = (int*)malloc (strLength * sizeof (int));
-      numOutputs = (int*)malloc (numLength * sizeof (int));
-   } while (strOutputs == NULL || numOutputs == NULL);
-   printf (ANSI_COLOR_YELLOW"\n---------------------------------------------------------------------------------\n|------------Input-------------|-----Expected-----|------Output------|--Result--|"ANSI_COLOR_RESET);
+   printf (ANSI_COLOR_YELLOW"\n-------------------------------------------------------------------"
+           "--------------\n|------------Input-------------|-----Expected-----|------Output------"
+           "|--Result--|"ANSI_COLOR_RESET);
    for (int i = 0; i < strLength; i++) {
-      printf ("\n  %-31s", strInputs[i]);
-      strOutputs[i] = PalindromeChecker (strInputs[i]);
-      (strExpected[i] == PALINDROME) ? printf ("%-19s", "Palindrome") : (strExpected[i] == NOTPALINDROME) ? printf ("%-19s", "Not a Palindrome") : printf ("%-19s", "Invalid");
-      (strOutputs[i] == PALINDROME) ? printf ("%-20s", "Palindrome") : (strOutputs[i] == NOTPALINDROME) ? printf ("%-20s", "Not a Palindrome") : printf ("%-20s", "Invalid");
-      (strOutputs[i] == strExpected[i]) ? printf (ANSI_COLOR_GREEN"Passed"ANSI_COLOR_RESET) : printf (ANSI_COLOR_RED"Failed"ANSI_COLOR_RESET);
+      output = PalindromeChecker (strInputs[i]);
+      printf ("\n  %-31s%-19s%-20s%s", strInputs[i],
+              strExpected[i] == PALINDROME ? "Palindrome" : strExpected[i] == NOTPALINDROME ?
+              "Not a Palindrome" : "Invalid",
+              output == PALINDROME ? "Palindrome" : output == NOTPALINDROME ?
+              "Not a Palindrome" : "Invalid",
+              output == strExpected[i] ? ANSI_COLOR_GREEN"Passed"ANSI_COLOR_RESET :
+              ANSI_COLOR_RED"Failed"ANSI_COLOR_RESET);
    }
-   printf (ANSI_COLOR_YELLOW"\n---------------------------------------------------------------------------------\n---------------------------------------------------------------------------------\n|-----Input-----|---Reversed---|-----Expected-----|------Output------|--Result--|"ANSI_COLOR_RESET);
+   printf (ANSI_COLOR_YELLOW"\n-------------------------------------------------------------------"
+           "--------------\n----------------------------------------------------------------------"
+           "-----------\n|-----Input-----|---Reversed---|-----Expected-----|------Output------"
+           "|--Result--|"ANSI_COLOR_RESET);
    for (int i = 0; i < numLength; i++) {
       rev = 0;
-      numOutputs[i] = NumberReverser (numInputs[i], &rev);
-      printf ("\n  %-16d%-15lld", numInputs[i], rev);
-      (numExpected[i] == PALINDROME) ? printf ("%-19s", "Palindrome") : printf ("%-19s", "Not a Palindrome");
-      (numOutputs[i] == PALINDROME) ? printf ("%-20s", "Palindrome") : printf ("%-20s", "Not a Palindrome");
-      (numOutputs[i] == numExpected[i]) ? printf (ANSI_COLOR_GREEN"Passed"ANSI_COLOR_RESET) : printf (ANSI_COLOR_RED"Failed"ANSI_COLOR_RESET);
+      output = NumberReverser (numInputs[i], &rev);
+      printf ("\n  %-16d%-15lld%-19s%-20s%s", numInputs[i], rev,
+              numExpected[i] == PALINDROME ? "Palindrome" : "Not a Palindrome",
+              output == PALINDROME ? "Palindrome" : "Not a Palindrome",
+              output == numExpected[i] ? ANSI_COLOR_GREEN"Passed"ANSI_COLOR_RESET :
+              ANSI_COLOR_RED"Failed"ANSI_COLOR_RESET);
    }
-   printf (ANSI_COLOR_YELLOW"\n---------------------------------------------------------------------------------\n"ANSI_COLOR_RESET);
+   printf (ANSI_COLOR_YELLOW"\n-------------------------------------------------------------------"
+           "--------------\n"ANSI_COLOR_RESET);
 }
 
 int main () {
-   char ch = '\n', choice[3], * result;
+   char ch = '\n', choice[3];
    while (1) {
-      printf ("Menu\n~~~~\n1. Palindrome Checker\n2. Number Reverser\n3. Run Test Cases\n4. Exit\n\nEnter your choice: ");
+      printf ("Menu\n~~~~\n1. Palindrome Checker\n2. Number Reverser\n3. Run Test Cases\n"
+              "4. Exit\n\nEnter your choice: ");
       fgets (choice, sizeof (choice), stdin);
-      result = strchr (choice, ch);
-      if (result == NULL) {
+      if (strchr (choice, ch) == NULL) {
          printf ("Invalid Choice!\n");
          BufferDrain ();
       } else {
@@ -123,15 +132,15 @@ int main () {
                   char phrase[MAX];
                   printf ("\nPalindrome Checker\n~~~~~~~~~~~~~~~~~~\nEnter a string: ");
                   fgets (phrase, MAX, stdin);
-                  result = strchr (phrase, ch);
-                  if (result == NULL) {
+                  if (strchr (phrase, ch) == NULL) {
                      printf ("Enter a valid string!\n");
                      BufferDrain ();
                   } else {
                      if (strlen (phrase) == MAX - 1)
                         phrase[MAX - 1] = '\0';
                      int pChecker = PalindromeChecker (phrase);
-                     printf (pChecker == PALINDROME ? "Palindrome\n" : pChecker == INVALID ? "Enter a valid string!\n" : "Not a palindrome!\n");
+                     printf (pChecker == PALINDROME ? "Palindrome\n" : pChecker == INVALID ?
+                             "Enter a valid string!\n" : "Not a palindrome!\n");
                   }
                   break;
                }
@@ -140,14 +149,17 @@ int main () {
                   long long int rev = 0;
                   printf ("\nNumber Reverser\n~~~~~~~~~~~~~~~\nEnter a number: ");
                   fgets (number, sizeof (number), stdin);
-                  result = strchr (number, ch);
-                  if (result == NULL) {
+                  if (strchr (number, ch) == NULL) {
                      printf ("Invalid Input!\n");
                      BufferDrain ();
                   } else {
                      errno = 0;
                      int num = strtol (number, &endptr, 10);
-                     endptr == number || *endptr != '\n' || errno == ERANGE || number[0] == ' ' || number[0] == '\t' ? printf ("Invalid Input!\n") : NumberReverser (num, &rev) == PALINDROME ? printf ("\nReversed: %lld\nPalindrome\n", rev) : printf ("\nReversed: %lld\nNot a palindrome!\n", rev);
+                     endptr == number || *endptr != '\n' || errno == ERANGE || number[0] == ' ' ||
+                        number[0] == '\t' ?
+                        printf ("Invalid Input!\n") : NumberReverser (num, &rev) == PALINDROME ?
+                        printf ("\nReversed: %lld\nPalindrome\n", rev) :
+                        printf ("\nReversed: %lld\nNot a palindrome!\n", rev);
                   }
                   break;
                }
