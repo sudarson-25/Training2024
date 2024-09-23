@@ -54,19 +54,17 @@ int PalindromeChecker (char* phrase) {
 /// <summary>Function which checks if the input number is palindrome or not</summary>
 int NumberReverser (int number, long long int* rev) {
    int rem, numTemp;
-   if (number >= 0 && number <= 9) {
+   if (number >= -9 && number <= 9) {
       *rev = number;
       return PALINDROME;
    }
-   if (number < 0)
-      return NOTPALINDROME;
    numTemp = number;
    while (numTemp != 0) {
       rem = numTemp % 10;
       *rev = *rev * 10 + rem;
       numTemp /= 10;
    }
-   return number == *rev ? PALINDROME : NOTPALINDROME;
+   return number >= 0 && number == *rev ? PALINDROME : NOTPALINDROME;
 }
 
 /// <summary>Function to drain the unassigned inputs from stdin</summary>
