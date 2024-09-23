@@ -26,13 +26,13 @@
 
 /// <summary>Function which checks if a given string is palindrome or not</summary>
 int PalindromeChecker (char* phrase) {
-   int i = 0, j, length;
+   int i = 0, j, length, validChar = 0;
    length = (int)strlen (phrase);
    j = length - 1;
    if (length > MAX - 2)
       return INVALID;
-   // Checking if valid characters match with the valid characters  
-   while (i < length / 2 && j>length / 2) {
+   // Checking if valid characters from the beginning and the end match with each other
+   while (i <= j) {
       if (isalnum (phrase[i]) == 0)
          i++;
       else if (isalnum (phrase[j]) == 0)
@@ -42,12 +42,13 @@ int PalindromeChecker (char* phrase) {
             if (toupper (phrase[i]) != toupper (phrase[j]))
                return NOTPALINDROME;
             else {
+               validChar++;
                i++;
                j--;
             }
          }
    }
-   return PALINDROME;
+   return validChar != 0 ? PALINDROME : INVALID;
 }
 
 /// <summary>Function which checks if the input number is palindrome or not</summary>
@@ -57,13 +58,15 @@ int NumberReverser (int number, long long int* rev) {
       *rev = number;
       return PALINDROME;
    }
+   if (number < 0)
+      return NOTPALINDROME;
    numTemp = number;
    while (numTemp != 0) {
       rem = numTemp % 10;
       *rev = *rev * 10 + rem;
       numTemp /= 10;
    }
-   return (number >= 0 && number == *rev) ? PALINDROME : NOTPALINDROME;
+   return number == *rev ? PALINDROME : NOTPALINDROME;
 }
 
 /// <summary>Function to drain the unassigned inputs from stdin</summary>
@@ -118,12 +121,13 @@ void TestCases () {
 }
 
 int main () {
-   char ch = '\n', choice[3];
+   char ch = '\n', choice[3], * result = NULL;
    while (1) {
       printf ("Menu\n~~~~\n1. Palindrome Checker\n2. Number Reverser\n3. Run Test Cases\n"
               "4. Exit\n\nEnter your choice: ");
       fgets (choice, sizeof (choice), stdin);
-      if (strchr (choice, ch) == NULL) {
+      result = strchr (choice, ch);
+      if (result == NULL) {
          printf ("Invalid Choice!\n");
          BufferDrain ();
       } else {
@@ -132,12 +136,12 @@ int main () {
                   char phrase[MAX];
                   printf ("\nPalindrome Checker\n~~~~~~~~~~~~~~~~~~\nEnter a string: ");
                   fgets (phrase, MAX, stdin);
-                  if (strchr (phrase, ch) == NULL) {
+                  result = strchr (phrase, ch);
+                  if (result == NULL) {
                      printf ("Enter a valid string!\n");
                      BufferDrain ();
                   } else {
-                     if (strlen (phrase) == MAX - 1)
-                        phrase[MAX - 1] = '\0';
+                     phrase[strlen (phrase) - 1] = '\0';
                      int pChecker = PalindromeChecker (phrase);
                      printf (pChecker == PALINDROME ? "Palindrome\n" : pChecker == INVALID ?
                              "Enter a valid string!\n" : "Not a palindrome!\n");
@@ -149,7 +153,8 @@ int main () {
                   long long int rev = 0;
                   printf ("\nNumber Reverser\n~~~~~~~~~~~~~~~\nEnter a number: ");
                   fgets (number, sizeof (number), stdin);
-                  if (strchr (number, ch) == NULL) {
+                  result = strchr (number, ch);
+                  if (result == NULL) {
                      printf ("Invalid Input!\n");
                      BufferDrain ();
                   } else {
