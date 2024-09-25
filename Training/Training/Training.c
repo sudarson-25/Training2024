@@ -26,9 +26,7 @@
 
 /// <summary>Function which checks if a given string is palindrome or not</summary>
 int PalindromeChecker (char* phrase) {
-   int i = 0, j, length, validChar = 0;
-   length = (int)strlen (phrase);
-   j = length - 1;
+   int i = 0, validChar = 0, length = (int)strlen (phrase), j = length - 1;
    if (length > MAX - 2)
       return INVALID;
    // Checking if valid characters from the beginning and the end match with each other
@@ -54,7 +52,7 @@ int PalindromeChecker (char* phrase) {
 /// <summary>Function which checks if the input number is palindrome or not</summary>
 int NumberReverser (int number, long long int* rev) {
    int rem, numTemp;
-   if (number >= -9 && number <= 9) {
+   if (number >= 0 && number <= 9) {
       *rev = number;
       return PALINDROME;
    }
@@ -79,26 +77,23 @@ void BufferDrain () {
 
 /// <summary>Function to run test cases</summary>
 void TestCases () {
-   int strLength, numLength, output,
-      numInputs[] = { 121,232,INT_MAX,INT_MIN,0 },
-      strExpected[] = { PALINDROME,PALINDROME,PALINDROME,NOTPALINDROME,NOTPALINDROME },
-      numExpected[] = { PALINDROME,PALINDROME,NOTPALINDROME,NOTPALINDROME,PALINDROME };
+   int strLength, numLength, numInputs[] = { 121,232,INT_MAX,INT_MIN,0 };
    long long int rev;
    char* strInputs[] = { "Was it a car or a cat I saw?", "I did, did I?", "Don't nod", "TRUMPF",
-      "Metamation" };
+      "Metamation" }, * strExpected[] = { "Palindrome", "Palindrome", "Palindrome", "Not a Palindrome",
+      "Not a Palindrome" }, * numExpected[] = { "Palindrome", "Palindrome", "Not a Palindrome",
+      "Not a Palindrome", "Palindrome" }, * stroutput = NULL, * numoutput = NULL;
    strLength = sizeof (strInputs) / sizeof (strInputs[0]);
    numLength = sizeof (numInputs) / sizeof (numInputs[0]);
    printf (ANSI_COLOR_YELLOW"\n-------------------------------------------------------------------"
            "--------------\n|------------Input-------------|-----Expected-----|------Output------"
            "|--Result--|"ANSI_COLOR_RESET);
    for (int i = 0; i < strLength; i++) {
-      output = PalindromeChecker (strInputs[i]);
-      printf ("\n  %-31s%-19s%-20s%s", strInputs[i],
-              strExpected[i] == PALINDROME ? "Palindrome" : strExpected[i] == NOTPALINDROME ?
-              "Not a Palindrome" : "Invalid",
-              output == PALINDROME ? "Palindrome" : output == NOTPALINDROME ?
-              "Not a Palindrome" : "Invalid",
-              output == strExpected[i] ? ANSI_COLOR_GREEN"Passed"ANSI_COLOR_RESET :
+      int pChecker = PalindromeChecker (strInputs[i]);
+      stroutput = pChecker == PALINDROME ? "Palindrome" : pChecker == NOTPALINDROME ?
+         "Not a Palindrome" : "Invalid";
+      printf ("\n  %-31s%-19s%-20s%s", strInputs[i], strExpected[i], stroutput,
+              strcmp (stroutput, strExpected[i]) == 0 ? ANSI_COLOR_GREEN"Passed"ANSI_COLOR_RESET :
               ANSI_COLOR_RED"Failed"ANSI_COLOR_RESET);
    }
    printf (ANSI_COLOR_YELLOW"\n-------------------------------------------------------------------"
@@ -107,11 +102,9 @@ void TestCases () {
            "|--Result--|"ANSI_COLOR_RESET);
    for (int i = 0; i < numLength; i++) {
       rev = 0;
-      output = NumberReverser (numInputs[i], &rev);
-      printf ("\n  %-16d%-15lld%-19s%-20s%s", numInputs[i], rev,
-              numExpected[i] == PALINDROME ? "Palindrome" : "Not a Palindrome",
-              output == PALINDROME ? "Palindrome" : "Not a Palindrome",
-              output == numExpected[i] ? ANSI_COLOR_GREEN"Passed"ANSI_COLOR_RESET :
+      numoutput = NumberReverser (numInputs[i], &rev) == PALINDROME ? "Palindrome" : "Not a Palindrome";
+      printf ("\n  %-16d%-15lld%-19s%-20s%s", numInputs[i], rev, numExpected[i], numoutput,
+              strcmp (numoutput, numExpected[i]) == 0 ? ANSI_COLOR_GREEN"Passed"ANSI_COLOR_RESET :
               ANSI_COLOR_RED"Failed"ANSI_COLOR_RESET);
    }
    printf (ANSI_COLOR_YELLOW"\n-------------------------------------------------------------------"
@@ -128,7 +121,7 @@ int main () {
       if (result == NULL) {
          printf ("Invalid Choice!\n");
          BufferDrain ();
-      } else {
+      } else
          switch (choice[0]) {
             case '1': {
                   char phrase[MAX];
@@ -175,7 +168,6 @@ int main () {
             default:
                printf ("Invalid Choice!\n");
          }
-      }
       printf ("\n");
    }
 }
