@@ -38,29 +38,26 @@ int PalindromeChecker (char* phrase) {
       else
          if (toupper (phrase[i]) != toupper (phrase[j]))
             return NOTPALINDROME;
-         else {
-            validChar++;
-            i++;
-            j--;
-         }
+         else
+            validChar++, i++, j--;
    }
    return validChar != 0 ? PALINDROME : INVALID;
 }
 
 /// <summary>Function which checks if the input number is palindrome or not</summary>
-int NumberReverser (int number, long long int* rev) {
-   int rem, numTemp;
+long long int NumberReverser (int number) {
+   int numTemp;
+   long long int rev = 0;
    if (number >= 0 && number <= 9) {
-      *rev = number;
-      return PALINDROME;
+      rev = number;
+      return rev;
    }
    numTemp = number;
    while (numTemp != 0) {
-      rem = numTemp % 10;
-      *rev = *rev * 10 + rem;
+      rev = rev * 10 + numTemp % 10;
       numTemp /= 10;
    }
-   return number >= 0 && number == *rev ? PALINDROME : NOTPALINDROME;
+   return rev;
 }
 
 /// <summary>Function to drain the unassigned inputs from stdin</summary>
@@ -70,32 +67,31 @@ void BufferDrain () {
 
 /// <summary>Function to check if the given input is a phrase or a number</summary>
 bool IsValidNum (char* phrase, int* num) {
-   char* endptr;
+   errno = 0;
+   char* endptr = NULL;
    *num = strtol (phrase, &endptr, 10);
-   if (endptr == phrase || *endptr != '\0' || errno == ERANGE || phrase[0] == ' ' || phrase[0] == '\t')
-      return false;
-   else
-      return true;
+   return endptr == phrase || *endptr != '\0' || errno == ERANGE || phrase[0] == ' ' || phrase[0] == '\t' ?
+      false : true;
 }
 
 /// <summary>Function to run test cases</summary>
 void TestCases () {
-   int Length, pChecker, num;
-   long long int rev;
+   int Length;
    char* Inputs[] = { "Was it a car or a cat I saw?", "I did, did I?", "Don't nod", "TRUMPF",
-      "Metamation", "121", "232", "123454321", "123456789", "0", "!@#  $%", " " }, * Expected[] = { "Palindrome", "Palindrome",
-      "Palindrome", "Not a Palindrome", "Not a Palindrome","Palindrome", "Palindrome",
-      "Palindrome", "Not a Palindrome", "Palindrome", "Invalid", "Invalid" }, * output = NULL;
+      "Metamation", "121", "232", "123454321", "123456789", "0", "!@#  $%", " ", "-878" }, * Expected[] = {
+      "Palindrome", "Palindrome", "Palindrome", "Not a Palindrome", "Not a Palindrome","Palindrome",
+      "Palindrome", "Palindrome", "Not a Palindrome", "Palindrome", "Invalid", "Invalid", "Not a Palindrome" },
+      * output = NULL;
    Length = sizeof (Inputs) / sizeof (Inputs[0]);
    printf (ANSI_COLOR_YELLOW"\n-------------------------------------------------------------------"
            "--------------\n|------------Input-------------|-----Expected-----|------Output------"
            "|--Result--|"ANSI_COLOR_RESET);
    for (int i = 0; i < Length; i++) {
-      rev = 0;
-      if (IsValidNum (Inputs[i], &num))
-         pChecker = NumberReverser (num, &rev);
-      else
-         pChecker = PalindromeChecker (Inputs[i]);
+      int num, pChecker;
+      long long int rev = 0;
+      pChecker = IsValidNum (Inputs[i], &num) ?
+         ((NumberReverser (num) == num && num >= 0) ? PALINDROME : NOTPALINDROME) :
+         PalindromeChecker (Inputs[i]);
       output = pChecker == PALINDROME ? "Palindrome" : pChecker == NOTPALINDROME ?
          "Not a Palindrome" : "Invalid";
       printf ("\n  %-31s%-19s%-20s%s", Inputs[i], Expected[i], output,
@@ -117,46 +113,40 @@ void Display (int output, int isNum, long long int rev) {
 /// <summary>Function to accept input from the user</summary>
 void UserInput () {
    char phrase[MAX], * result = NULL;
-   int output, isNum = 1, num;
    fgets (phrase, MAX, stdin);
    result = strchr (phrase, '\n');
    if (result == NULL) {
       printf ("Enter a valid string!\n");
       BufferDrain ();
    } else {
+      int output, isNum = 1, num;
+      long long int rev = 0;
       phrase[strlen (phrase) - 1] = '\0';
-      if (IsValidNum (phrase, &num)) {
-         long long int rev = 0;
-         output = NumberReverser (num, &rev);
-         Display (output, isNum, rev);
-      } else {
-         isNum = 0;
-         long long int placeholder = 0;
-         output = PalindromeChecker (phrase);
-         Display (output, isNum, placeholder);
-      }
+      IsValidNum (phrase, &num) ? (output = (rev = NumberReverser (num)) == num && num >= 0 ?
+                                   PALINDROME : NOTPALINDROME) : (isNum = 0, output =
+                                                                  PalindromeChecker (phrase));
+      Display (output, isNum, rev);
    }
 }
 
 int main () {
-   char ch = '\n', choice[3], * result = NULL;
    while (1) {
+      char choice[3], * result = NULL;
       printf ("Menu\n~~~~\n1. Palindrome Checker / Number Reverser\n2. Run Test Cases\n"
               "3. Exit\n\nEnter your choice: ");
       fgets (choice, sizeof (choice), stdin);
-      result = strchr (choice, ch);
+      result = strchr (choice, '\n');
       if (result == NULL) {
          printf ("Invalid Choice!\n");
          BufferDrain ();
-      } else {
+      } else
          switch (choice[0]) {
-            case '1': {
-                  printf ("\nPalindrome Checker / Number Reverser\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-                          "~~~~~");
-                  printf ("\nInput: ");
-                  UserInput ();
-                  break;
-               }
+            case '1':
+               printf ("\nPalindrome Checker / Number Reverser\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+                       "~~~~~");
+               printf ("\nInput: ");
+               UserInput ();
+               break;
             case '2':
                printf ("\nTest Cases\n~~~~~~~~~~");
                TestCases ();
@@ -166,7 +156,6 @@ int main () {
             default:
                printf ("Invalid Choice!\n");
          }
-      }
       printf ("\n");
    }
 }
