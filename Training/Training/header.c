@@ -1,3 +1,11 @@
+// ------------------------------------------------------------------------------------------------
+// Training ~ A training program for new joiners at Metamation, Batch - July 2024.
+// Copyright (c) Metamation India.
+// ------------------------------------------------------------------
+// header.c
+// Selection sort and binary search functions are defined
+// Sudarson S
+// ------------------------------------------------------------------------------------------------
 #include "header.h"
 
 void SelectionSort (int* arr, int n) {
@@ -20,7 +28,7 @@ void SelectionSort (int* arr, int n) {
 int BinarySearch (int* arr, int arrSize, int key) {
    int low = 0, high = arrSize - 1, idx = -1;
    while (low <= high) {
-      int mid = low + (high - low) / 2;
+      int mid = (high + low) / 2;
       // Checks if key is present at mid and is it's first occurrence
       if (arr[mid] == key) {
          idx = mid;
