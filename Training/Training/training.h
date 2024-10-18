@@ -3,7 +3,7 @@
 // Training ~ A training program for new joiners at Metamation, Batch - July 2024.
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------
-// header.h
+// training.h
 // Contains function signatures
 // Sudarson S
 // ------------------------------------------------------------------------------------------------

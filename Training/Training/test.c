@@ -2,7 +2,7 @@
 // Training ~ A training program for new joiners at Metamation, Batch - July 2024.
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------
-// Training.c
+// test.c
 // Tests for selection sort and binary search
 // Sudarson S
 // ------------------------------------------------------------------------------------------------
@@ -32,15 +32,13 @@ void IsValidInteger (char* prompt, int* num) {
          output = endptr == numberStr || *endptr != '\n' || errno == ERANGE || numberStr[0] == ' ' ||
             numberStr[0] == '\t' ? false : true;
       }
-      if (output == false)
-         printf ("Invalid Input\n");
+      if (output == false) printf ("Invalid Input\n");
    } while (output == false);
 }
 
 /// <summary>Prints the array elements</summary>
 void PrintArray (int* arr, int n) {
-   for (int i = 0; i < n; i++)
-      printf ("%d ", arr[i]);
+   for (int i = 0; i < n; i++) printf ("%d ", arr[i]);
 }
 
 /// <summary>Runs test cases</summary>
@@ -65,8 +63,7 @@ void TestCases () {
             printf ("\nResult:   "ANSI_COLOR_RED"Failed\n"ANSI_COLOR_RESET);
             break;
          }
-      if (j == 8)
-         printf ("\nResult:   "ANSI_COLOR_GREEN"Passed\n"ANSI_COLOR_RESET);
+      if (j == 8) printf ("\nResult:   "ANSI_COLOR_GREEN"Passed\n"ANSI_COLOR_RESET);
       printf ("\nBinary Search\n~~~~~~ ~~~~~~\nSearch Key:     %d\nExpected Index: %d\nOutput Index:"
               "   %d", binSearchKey[i], binExpected[i], output = BinarySearch (inputs[i], 8, binSearchKey[i]));
       printf (output == binExpected[i] ? "\nResult:         "ANSI_COLOR_GREEN"Passed\n"ANSI_COLOR_RESET :
@@ -80,8 +77,7 @@ void TestCases () {
 void UserInputs (int** arr, int* arrSize) {
    do {
       IsValidInteger ("\nEnter an array size: ", arrSize);
-      if (*arrSize <= 0)
-         printf ("Invalid Input\n");
+      if (*arrSize <= 0) printf ("Invalid Input\n");
    } while (*arrSize <= 0);
    do
       *arr = (int*)malloc ((*arrSize) * sizeof (int));
