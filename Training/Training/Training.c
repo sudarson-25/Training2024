@@ -11,7 +11,7 @@
 int BinarySearch (int* arr, int arrSize, int key) {
    int low = 0, high = arrSize - 1, idx = -1;
    while (low <= high) {
-      int mid = (high + low) / 2;
+      int mid = low + (high - low) / 2;
       // Checks if key is present at mid and is it's first occurrence
       arr[mid] == key ? idx = mid, high = mid - 1 : arr[mid] < key ? low = mid + 1 : (high = mid - 1);
    }
