@@ -25,6 +25,10 @@ void SelectionSort (int* arr, int n) {
       for (int j = i + 1; j < n; j++)
          if (arr[j] < arr[minIdx]) minIdx = j; // Update minInd if a smaller element is found
       // If a new minimum is found, swap it with the element at index i
-      if (minIdx != i) arr[i] += arr[minIdx], arr[minIdx] = arr[i] - arr[minIdx], arr[i] -= arr[minIdx];
+      if (minIdx != i) {
+         int temp = arr[i];
+         arr[i] = arr[minIdx];
+         arr[minIdx] = temp;
+      }
    }
 }

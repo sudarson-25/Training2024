@@ -45,8 +45,8 @@ void TestCases () {
    for (int i = 0; i < n; i++) {
       int output, k;
       printf (ANSI_COLOR_YELLOW"\n----------------------------------------------------------------"
-              "-----------------------------------------"ANSI_COLOR_RESET"\nSelection Sort\n~~~~~~"
-              "~~~~~~~\nInput:    ");
+         "-----------------------------------------"ANSI_COLOR_RESET"\nSelection Sort\n~~~~~~"
+         "~~~~~~~\nInput:    ");
       for (int j = 0; j < 8; j++) printf ("%d ", inputs[i][j]);
       printf ("\nExpected: ");
       for (int j = 0; j < 8; j++) printf ("%d ", sortExpected[i][j]);
@@ -60,11 +60,11 @@ void TestCases () {
          }
       if (k == 8) printf ("\nResult:   "ANSI_COLOR_GREEN"Passed\n"ANSI_COLOR_RESET);
       printf ("\nBinary Search\n~~~~~~ ~~~~~~\nSearch Key:     %d\nExpected Index: %d\nOutput Index:"
-              "   %d", binSearchKey[i], binExpected[i], output = BinarySearch (inputs[i], 8, binSearchKey[i]));
+         "   %d", binSearchKey[i], binExpected[i], output = BinarySearch (inputs[i], 8, binSearchKey[i]));
       printf (output == binExpected[i] ? "\nResult:         "ANSI_COLOR_GREEN"Passed\n"ANSI_COLOR_RESET :
-              "\nResult:         "ANSI_COLOR_RED"Failed\n"ANSI_COLOR_RESET);
+         "\nResult:         "ANSI_COLOR_RED"Failed\n"ANSI_COLOR_RESET);
       printf (ANSI_COLOR_YELLOW"------------------------------------------------------------------"
-              "---------------------------------------"ANSI_COLOR_RESET);
+         "---------------------------------------"ANSI_COLOR_RESET);
    }
 }
 
@@ -88,7 +88,7 @@ int main () {
    while (1) {
       int choice;
       IsValidInteger ("\n\nMenu\n~~~~\n1. Sort and Search\n2. Run Test Cases\n"
-                      "3. Exit\n\nEnter your choice: ", &choice);
+         "3. Exit\n\nEnter your choice: ", &choice);
       switch (choice) {
          case 1: {
                int key, arrSize, * arr = NULL;
