@@ -21,22 +21,17 @@ static int GetValidInteger (char* prompt) {
    bool output;
    int num;
    do {
-      char numberStr[4096], * result = NULL;
+      char numberStr[4096];
       printf ("%s", prompt);
       fgets (numberStr, sizeof (numberStr), stdin);
-      result = strchr (numberStr, '\n');
-      if (result == NULL) {
-         while (getchar () != '\n');
-         output = false;
-      } else {
+      if (output = strchr (numberStr, '\n') != NULL) {
          errno = 0;
          char* endptr = NULL;
          num = strtol (numberStr, &endptr, 10);
-         output = endptr != numberStr && *endptr == '\n' && errno != ERANGE && numberStr[0] != ' ' &&
-            numberStr[0] != '\t';
+         output = endptr != numberStr && *endptr == '\n' && errno != ERANGE;
       }
       if (!output) printf ("Invalid Input\n");
-   } while (output == false);
+   } while (!output);
    return num;
 }
 
@@ -71,9 +66,9 @@ static void SortTestCases () {
 
 /// <summary>Runs test cases for the searching algorithm</summary>
 static void SearchTestCases () {
-   int row0[] = { -5, 12, 19, 20, 21, 30 }, row1[] = { -5, 6 }, row2[] = { -12, -4, -4, 0, 3, 4, 4,
-      4 }, row3[] = { -250, 15, 17, 46, 60 }, * jagged[] = { row0, row1, row2, row3 }, size[] = { 6,
-      2, 8, 5 }, binSearchKey[] = { 20, 6, 4, 17 }, binExpected[] = { 3, 1, 5, 2 }, output;
+   int row0[] = { -5, 12, 19, 20, 21, 30 }, row1[] = { -5, 6 }, row2[] = { -12, -4, -4, 0, 3, 4, 4, 4 },
+      row3[] = { -250, 15, 17, 46, 60 }, * jagged[] = { row0, row1, row2, row3 }, size[] = { 6, 2, 8, 5 },
+      binSearchKey[] = { 20, 6, 4, 17 }, binExpected[] = { 3, 1, 5, 2 }, output;
    printf ("\nTestCases\n~~~~~~~~~\nBinary Search\n~~~~~~~~~~~~~");
    for (int i = 0; i < 4; i++) {
       char* dashes = ANSI_COLOR_YELLOW"----------------------------------------------------------------"
@@ -118,7 +113,7 @@ int main () {
                key = GetValidInteger ("\nEnter the element to be found: ");
                printf ("Element found at index: %d", BinarySearch (arr, arrSize, key));
                free (arr);
-            }break;
+            } break;
          case 2:
             SortTestCases ();
             SearchTestCases ();
