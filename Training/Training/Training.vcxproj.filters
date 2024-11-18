@@ -15,8 +15,40 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Training.c">
+    <ClCompile Include="harness.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test1in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test1out.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test2in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test2out.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test3in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test3out.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test4in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test4out.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test5in.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test5out.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
