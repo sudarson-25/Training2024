@@ -127,16 +127,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="reference1.txt" />
+    <Text Include="reference2.txt" />
+    <Text Include="reference3.txt" />
+    <Text Include="reference4.txt" />
+    <Text Include="reference5.txt" />
     <Text Include="test1in.txt" />
-    <Text Include="test1out.txt" />
     <Text Include="test2in.txt" />
-    <Text Include="test2out.txt" />
     <Text Include="test3in.txt" />
-    <Text Include="test3out.txt" />
     <Text Include="test4in.txt" />
-    <Text Include="test4out.txt" />
     <Text Include="test5in.txt" />
-    <Text Include="test5out.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="harness.c" />

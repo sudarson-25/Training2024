@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <synchapi.h>
 
 /// <summary>
 /// This function will execute the FSM providing the input and output file names as arguments
@@ -74,31 +75,33 @@ int main (int argc, char** argv) {
       return -1;
    }
    for (int i = 0; i < NTESTS; i++) {
-      char input[260], output[260];
+      char input[260], reference[260];
       sprintf (input, "test%din.txt", i + 1);
-      sprintf (output, "test%dout.txt", i + 1); // Reference output file
+      char* output = "tempOut.txt";
+      sprintf (reference, "reference%d.txt", i + 1);
       if (ExecProgram (argv[1], input, output) != 0) printf ("Error executing test %d\n", i + 1);
       else {
-         FILE* tfp = fopen ("tempOut.txt", "r");
+         FILE* rfp = fopen (reference, "r");
          FILE* ofp = fopen (output, "r");
-         if (tfp == NULL) printf ("Temporary output file does not exist");
-         else if (ofp == NULL) printf ("Reference output file does not exist");
+         if (rfp == NULL) printf ("Reference output file does not exist");
+         else if (ofp == NULL) printf ("Temporary output file does not exist");
          else {
-            char refFileChar = fgetc (tfp);
+            char refFileChar = fgetc (rfp);
             char OutFileChar = fgetc (ofp);
             if (refFileChar == EOF || OutFileChar == EOF) printf ("File has no content!");
             else {
                int flag = 0;
-               while (refFileChar != EOF && OutFileChar != EOF) {
+               while (refFileChar != EOF || OutFileChar != EOF) {
                   flag++;
-                  if (refFileChar != OutFileChar) break;
-                  else {
-                     refFileChar = fgetc (tfp);
+                  if (refFileChar != OutFileChar) {
+                     printf ("Error testing %s: Error at bit no. %d, Expected %c, Actual %c\n", input, flag, OutFileChar, refFileChar);
+                     break;
+                  } else {
+                     refFileChar = fgetc (rfp);
                      OutFileChar = fgetc (ofp);
                   }
                }
-               if (refFileChar == EOF && OutFileChar == EOF) printf ("No error testing %s\n", input);
-               else printf ("Error testing %s: Error at bit no. %d, Expected %c, Actual %c\n", input, flag, refFileChar, OutFileChar);
+               printf ("No error testing %s\n", input);
             }
          }
       }
