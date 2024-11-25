@@ -2,7 +2,7 @@
 // Training ~ A training program for new joiners at Metamation, Batch - July 2024.
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------
-// test.c
+// training.c
 // Program to display the chess board
 // Sudarson S
 // ------------------------------------------------------------------------------------------------
@@ -37,17 +37,15 @@ static void TestCases (char* outputFile, char* referenceFile) {
    else if (rfp == NULL) wprintf (L"Could not open reference file\n");
    else {
       wint_t outChar = fgetwc (ofp), refChar = fgetwc (rfp);
-      int matchFlag = 0, charFlag = 0;
       wprintf (L"\n Testcase: ");
       while (outChar != WEOF || refChar != WEOF)
-         if (outChar != refChar) {
-            wprintf (ANSI_COLOR_RED L"FAILED\n" ANSI_COLOR_RESET);
-            break;
-         } else {
+         if (outChar != refChar) break;
+         else {
             outChar = fgetwc (ofp);
             refChar = fgetwc (rfp);
          }
       if (outChar == WEOF && refChar == WEOF) wprintf (ANSI_COLOR_GREEN L"PASSED\n" ANSI_COLOR_RESET);
+      else wprintf (ANSI_COLOR_RED L"FAILED\n" ANSI_COLOR_RESET);
       fclose (ofp);
       fclose (rfp);
    }
