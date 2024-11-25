@@ -76,27 +76,29 @@ int main (int argc, char** argv) {
    for (int i = 0; i < NTESTS; i++) {
       char input[260], output[260];
       sprintf (input, "test%din.txt", i + 1);
-      sprintf (output, "test%dout.txt", i + 1);
+      sprintf (output, "test%dout.txt", i + 1); // Reference output file
       if (ExecProgram (argv[1], input, output) != 0) printf ("Error executing test %d\n", i + 1);
       else {
-         FILE* tfp = fopen ("temp.txt", "r");
+         FILE* tfp = fopen ("tempOut.txt", "r");
          FILE* ofp = fopen (output, "r");
-         if (tfp == NULL) printf ("Reference file does not exist");
-         else if (ofp == NULL) printf ("Output file does not exist");
+         if (tfp == NULL) printf ("Temporary output file does not exist");
+         else if (ofp == NULL) printf ("Reference output file does not exist");
          else {
             char refFileChar = fgetc (tfp);
             char OutFileChar = fgetc (ofp);
             if (refFileChar == EOF || OutFileChar == EOF) printf ("File has no content!");
             else {
-               int flag = 0, flag1 = 0;
+               int flag = 0;
                while (refFileChar != EOF && OutFileChar != EOF) {
                   flag++;
-                  if (refFileChar == OutFileChar) flag1++;
-                  else printf ("Error testing %s: Error at bit no. %d, Expected %c, Actual %c\n", input, flag, refFileChar, OutFileChar);
-                  refFileChar = fgetc (tfp);
-                  OutFileChar = fgetc (ofp);
+                  if (refFileChar != OutFileChar) break;
+                  else {
+                     refFileChar = fgetc (tfp);
+                     OutFileChar = fgetc (ofp);
+                  }
                }
-               if (flag == flag1) printf ("No error testing %s\n", input);
+               if (refFileChar == EOF && OutFileChar == EOF) printf ("No error testing %s\n", input);
+               else printf ("Error testing %s: Error at bit no. %d, Expected %c, Actual %c\n", input, flag, refFileChar, OutFileChar);
             }
          }
       }

@@ -83,7 +83,7 @@ static int mealy (char* inputPath, char* outputPath) {
    State currentState = S0;  // Start in initial state
    int output = 0;
    FILE* ifp = fopen (inputPath, "r");
-   FILE* tfp = fopen ("temp.txt", "w");
+   FILE* tfp = fopen ("tempOut.txt", "w");
    if (ifp == NULL) printf ("Input file does not exist");
    else {
       char ch = fgetc (ifp);
