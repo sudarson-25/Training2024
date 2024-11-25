@@ -39,13 +39,14 @@ static void TestCases (char* outputFile, char* referenceFile) {
       wint_t outChar = fgetwc (ofp), refChar = fgetwc (rfp);
       wprintf (L"\n Testcase: ");
       while (outChar != WEOF || refChar != WEOF)
-         if (outChar != refChar) break;
-         else {
+         if (outChar != refChar) {
+            wprintf (ANSI_COLOR_RED L"FAILED\n" ANSI_COLOR_RESET);
+            break;
+         } else {
             outChar = fgetwc (ofp);
             refChar = fgetwc (rfp);
          }
-      if (outChar == WEOF && refChar == WEOF) wprintf (ANSI_COLOR_GREEN L"PASSED\n" ANSI_COLOR_RESET);
-      else wprintf (ANSI_COLOR_RED L"FAILED\n" ANSI_COLOR_RESET);
+      wprintf (ANSI_COLOR_GREEN L"PASSED\n" ANSI_COLOR_RESET);
       fclose (ofp);
       fclose (rfp);
    }
