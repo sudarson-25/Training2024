@@ -4,6 +4,9 @@
 #include <malloc.h>
 #include <string.h>
 #include <synchapi.h>
+#include <handleapi.h>
+#include <errhandlingapi.h>
+#include <processthreadsapi.h>
 
 /// <summary>
 /// This function will execute the FSM providing the input and output file names as arguments
