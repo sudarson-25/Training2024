@@ -20,17 +20,6 @@ static void PrintWrite (const wchar_t* const character, FILE* fp) {
    fputws (character, fp);
 }
 
-static void PrintBox (const wchar_t* const symbol1, const wchar_t* const symbol2, const wchar_t*
-   const symbol3, FILE* fp) {
-   PrintWrite (symbol1, fp);
-   for (int i = 1; i <= 7; i++) {
-      for (int i = 1; i <= 4; i++) PrintWrite (L"━", fp);
-      PrintWrite (symbol2, fp);
-   }
-   for (int i = 1; i <= 4; i++) PrintWrite (L"━", fp);
-   PrintWrite (symbol3, fp);
-}
-
 static void TestCases (char* outputFile, char* referenceFile) {
    FILE* ofp = fopen (outputFile, "r"), * rfp = fopen (referenceFile, "r");
    if (ofp == NULL) wprintf (L"Could not open output file\n");
@@ -60,8 +49,7 @@ int main () {
    else {
       const wchar_t* const pieces[2][8] = { L"♜", L"♞", L"♝", L"♛", L"♚", L"♝", L"♞", L"♜",
          L"♖", L"♘", L"♗", L"♕", L"♔", L"♗", L"♘", L"♖" };
-      PrintBox (L"┏", L"┳", L"┓", fp);
-      PrintWrite (L"\n", fp);
+      PrintWrite (L"┏━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┓\n", fp);
       for (int i = 1; i <= 8; i++) {
          switch (i) {
             case 1: for (int j = 0; j < 8; j++) {
@@ -80,16 +68,13 @@ int main () {
                fputws (pieces[1][j], fp);
                fputws (L" ", fp);
             }break;
-            default:for (int j = 1; j <= 8; j++)
-               PrintWrite (L"┃    ", fp);
+            default:for (int j = 1; j <= 8; j++) PrintWrite (L"┃    ", fp);
          }
          PrintWrite (L"┃\n", fp);
-         if (i != 8) {
-            PrintBox (L"┣", L"╋", L"┫", fp);
-            PrintWrite (L"\n", fp);
-         }
+         if (i != 8)
+            PrintWrite (L"┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫\n", fp);
       }
-      PrintBox (L"┗", L"┻", L"┛", fp);
+      PrintWrite (L"┗━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┛", fp);
       fclose (fp);
    }
    TestCases (outputFile, referenceFile);
