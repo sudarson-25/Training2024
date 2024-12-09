@@ -84,13 +84,11 @@ int main (int argc, char** argv) {
       sprintf (reference, "reference%d.txt", i + 1);
       if (ExecProgram (argv[1], input, output) != 0) printf ("Error executing test %d\n", i + 1);
       else {
-         FILE* rfp = fopen (reference, "r");
-         FILE* ofp = fopen (output, "r");
+         FILE* rfp = fopen (reference, "r"), * ofp = fopen (output, "r");
          if (rfp == NULL) printf ("Reference output file does not exist");
          else if (ofp == NULL) printf ("Temporary output file does not exist");
          else {
-            char refFileChar = fgetc (rfp);
-            char OutFileChar = fgetc (ofp);
+            char refFileChar = fgetc (rfp), OutFileChar = fgetc (ofp);
             if (refFileChar == EOF || OutFileChar == EOF) printf ("File has no content!");
             else {
                int flag = 0;
