@@ -8,8 +8,10 @@
 // Sudarson S
 // ------------------------------------------------------------------------------------------------
 
+#include<stdbool.h>
+
 typedef struct ComplexNumber {
-   float real, img;
+   float Real, Img;
 }Complex;
 
 /// <summary>Adds two complex numbers</summary>
@@ -26,3 +28,9 @@ double OpMod (Complex A);
 
 /// <summary>Computes the conjugate of a complex number</summary>
 Complex OpConj (Complex A);
+
+/// <summary>Prints a complex number</summary>
+void PrintComplex (Complex C);
+
+/// <summary>Compares 2 complex numbers and returns true if they are equal</summary>
+bool Compare (Complex C, Complex D);
