@@ -60,10 +60,10 @@ bool CheckWin (int* box, int player) {
 /// <summary>Returns the game status</summary>
 int CheckStatus (int* box, int player1, int player2) {
    int i;
-   for (i = 0; i < 9 && box[i] != 0; i++);
-   if (i == 9) return DRAW;
    if (CheckWin (box, player1)) return WIN;
    else if (CheckWin (box, player2)) return LOSE;
+   for (i = 0; i < 9 && box[i] != 0; i++);
+   if (i == 9) return DRAW;
    return PLAY;
 }
 
