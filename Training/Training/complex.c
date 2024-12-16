@@ -41,6 +41,6 @@ void PrintComplex (Complex C) {
    C.Img >= 0 ? printf ("%0.2f +%0.2fi\n", C.Real, C.Img) : printf ("%0.2f %0.2fi\n", C.Real, C.Img);
 }
 
-bool Compare (Complex C, Complex D) {
+bool IsEqual (Complex C, Complex D) {
    return C.Real == D.Real && C.Img == D.Img;
 }

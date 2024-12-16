@@ -33,4 +33,4 @@ Complex OpConj (Complex A);
 void PrintComplex (Complex C);
 
 /// <summary>Compares 2 complex numbers and returns true if they are equal</summary>
-bool Compare (Complex C, Complex D);
+bool IsEqual (Complex C, Complex D);
