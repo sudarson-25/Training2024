@@ -20,63 +20,38 @@ typedef enum {
 State nextMealyState (State currentState, int input, int* output) {
    switch (currentState) {
       case S0:
-         if (input == 0) {
-            *output = 0;
-            return S1;  // Transition to S1 after '0'
-         } else {
-            *output = 0;
-            return C;  // Transition to C after '1'
-         }
+         // Transition to S1 after '0'
+         // Transition to C after '1'
+         return input == 0 ? (*output = 0), S1 : ((*output = 0), C);
       case S1:
-         if (input == 1) {
-            *output = 0;
-            return S2;  // Transition to S2 after '01'
-         } else {
-            *output = 0;
-            return S1;  // Stay in S1 if input is '0'
-         }
+         // Transition to S2 after '01'
+         // Stay in S1 if input is '0'
+         return input == 1 ? (*output = 0), S2 : ((*output = 0), S1);
       case S2:
-         if (input == 1) {
-            *output = 0;
-            return S3;  // Transition to S3 after '011'
-         } else {
-            *output = 0;
-            return S1;  // Return to S1 if input is '0'
-         }
+         // Transition to S3 after '011'
+         // Return to S1 if input is '0'
+         return input == 1 ? (*output = 0), S3 : ((*output = 0), S1);
       case S3:
-         if (input == 0) {
-            *output = 1;  // Output '1' upon seeing '0110'
-            return A;  // Move to A after recognizing '0110'
-         } else {
-            *output = 0;
-            return B; // Transition to B after '110'
-         }
+         // Output '1' upon seeing '0110'
+         // Move to A after recognizing '0110'
+         // Transition to B after '110'
+         return input == 0 ? (*output = 1), A : ((*output = 0), B);
       case A:
-         if (input == 1) {
-            *output = 1;  // Output '1' upon seeing '1101'
-            return S2;  // Move to S2 after recognizing '1101'
-         } else {
-            *output = 0;
-            return S1;  // Return to S1 if input is '0'
-         }
+         // Output '1' upon seeing '1101'
+         // Move to S2 after recognizing '1101'
+         // Return to S1 if input is '0'
+         return input == 1 ? (*output = 1), S2 : ((*output = 0), S1);
       case B:
-         if (input == 0) {
-            *output = 0;
-            return A;  // Transition to A after '110'
-         } else {
-            *output = 0;
-            return B;  // Stay in B if input is '1'
-         }
+         // Transition to A after '110'
+         // Stay in B if input is '1'
+         return input == 0 ? (*output = 0), A : ((*output = 0), B);
       case C:
-         if (input == 0) {
-            *output = 0;
-            return S1;  // Return to S1 if input is '0'
-         } else {
-            *output = 0;
-            return B;  // Transition to B after '11'
-         }
+         // Return to S1 if input is '0'
+         // Transition to B after '11'
+         return input == 0 ? (*output = 0), S1 : ((*output = 0), B);
+      default:
+         return S0;  // Default return to initial state
    }
-   return S0;  // Default return to initial state
 }
 
 static int mealy (char* inputPath, char* outputPath) {
@@ -87,15 +62,13 @@ static int mealy (char* inputPath, char* outputPath) {
    if (ifp == NULL) printf ("Input file does not exist");
    else {
       char ch = fgetc (ifp);
-      if (ch == EOF)
-         printf ("File has no content!");
-      else {
+      if (ch == EOF) printf ("File has no content!");
+      else
          while (ch != EOF && (ch == '0' || ch == '1')) {
-            currentState = nextMealyState (currentState, (int)ch - 48, &output);
+            currentState = nextMealyState (currentState, (int)ch - '0', &output);
             fprintf (tfp, "%d", output);
             ch = fgetc (ifp);
          }
-      }
       fclose (ifp);
       fclose (tfp);
    }

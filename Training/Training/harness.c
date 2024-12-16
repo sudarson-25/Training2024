@@ -80,7 +80,7 @@ int main (int argc, char** argv) {
    for (int i = 0; i < NTESTS; i++) {
       char input[260], reference[260];
       sprintf (input, "test%din.txt", i + 1);
-      char* output = "tempOut.txt";
+      char* output = "C:\\etc\\tempOut.txt";
       sprintf (reference, "reference%d.txt", i + 1);
       if (ExecProgram (argv[1], input, output) != 0) printf ("Error executing test %d\n", i + 1);
       else {
@@ -88,19 +88,18 @@ int main (int argc, char** argv) {
          if (rfp == NULL) printf ("Reference output file does not exist");
          else if (ofp == NULL) printf ("Temporary output file does not exist");
          else {
-            char refFileChar = fgetc (rfp), OutFileChar = fgetc (ofp);
-            if (refFileChar == EOF || OutFileChar == EOF) printf ("File has no content!");
+            char refFileChar = fgetc (rfp), outFileChar = fgetc (ofp);
+            if (refFileChar == EOF || outFileChar == EOF) printf ("File has no content!");
             else {
-               int flag = 0;
-               while (refFileChar != EOF || OutFileChar != EOF) {
-                  flag++;
-                  if (refFileChar != OutFileChar) {
-                     printf ("Error testing %s: Error at bit no. %d, Expected %c, Actual %c\n", input, flag, OutFileChar, refFileChar);
+               int charNum = 0;
+               while (refFileChar != EOF || outFileChar != EOF) {
+                  charNum++;
+                  if (refFileChar != outFileChar) {
+                     printf ("Error testing %s: Error at bit no. %d, Expected %c, Actual %c\n", input, charNum, outFileChar, refFileChar);
                      break;
-                  } else {
-                     refFileChar = fgetc (rfp);
-                     OutFileChar = fgetc (ofp);
                   }
+                  refFileChar = fgetc (rfp);
+                  outFileChar = fgetc (ofp);
                }
                printf ("No error testing %s\n", input);
             }
