@@ -37,10 +37,11 @@ static int GetValidInteger (char* prompt) {
 
 /// <summary>Returns if a number is prime, composite or neither</summary>
 int PrimeChecker (int num) {
-   int factors = 0;
-   for (int i = 1; i <= num; i++)
-      if (num % i == 0) factors++;
-   return factors == 2 ? PRIME : factors == 1 ? NEITHER : COMPOSITE;
+   if (num == 1) return NEITHER;
+   if (num == 2) return PRIME;
+   for (int i = 2; i <= num / 2; i++)
+      if (num % i == 0) return COMPOSITE;
+   return PRIME;
 }
 
 int main () {
