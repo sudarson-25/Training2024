@@ -108,7 +108,9 @@ int main (int argc, char** argv) {
                   refFileChar = refFileContent[++j];
                   outFileChar = outFileContent[j];
                }
-               printf ("No error testing %s\n", input);
+               free (refFileContent);
+               free (outFileContent);
+               if (refFileChar == outFileChar) printf ("No error testing %s\n", input);
             }
          }
       }
