@@ -7,6 +7,7 @@
 #include <handleapi.h>
 #include <errhandlingapi.h>
 #include <processthreadsapi.h>
+#include <io.h>
 
 /// <summary>
 /// This function will execute the FSM providing the input and output file names as arguments
@@ -88,18 +89,24 @@ int main (int argc, char** argv) {
          if (rfp == NULL) printf ("Reference output file does not exist");
          else if (ofp == NULL) printf ("Temporary output file does not exist");
          else {
-            char refFileChar = fgetc (rfp), outFileChar = fgetc (ofp);
-            if (refFileChar == EOF || outFileChar == EOF) printf ("File has no content!");
+            int refFilesize = filelength (fileno (rfp)) + 1,
+               outFilesize = filelength (fileno (ofp)) + 1, j = 0;
+            char* refFileContent = (char*)malloc (refFilesize * sizeof (char)),
+               * outFileContent = (char*)malloc (outFilesize * sizeof (char));
+            fgets (refFileContent, refFilesize, rfp);
+            fgets (outFileContent, outFilesize, ofp);
+            char refFileChar = refFileContent[j], outFileChar = outFileContent[j];
+            if (refFileChar == '\0' || outFileChar == '\0') printf ("File has no content!");
             else {
                int charNum = 0;
-               while (refFileChar != EOF || outFileChar != EOF) {
+               while (refFileChar != '\0' || outFileChar != '\0') {
                   charNum++;
                   if (refFileChar != outFileChar) {
                      printf ("Error testing %s: Error at bit no. %d, Expected %c, Actual %c\n", input, charNum, outFileChar, refFileChar);
                      break;
                   }
-                  refFileChar = fgetc (rfp);
-                  outFileChar = fgetc (ofp);
+                  refFileChar = refFileContent[++j];
+                  outFileChar = outFileContent[j];
                }
                printf ("No error testing %s\n", input);
             }
