@@ -102,7 +102,7 @@ int main (int argc, char** argv) {
                while (refFileChar != '\0' || outFileChar != '\0') {
                   charNum++;
                   if (refFileChar != outFileChar) {
-                     printf ("Error testing %s: Error at bit no. %d, Expected %c, Actual %c\n", input, charNum, outFileChar, refFileChar);
+                     printf ("Test Failure %s: Error at bit no. %d, Expected %c, Actual %c\n", input, charNum, outFileChar, refFileChar);
                      break;
                   }
                   refFileChar = refFileContent[++j];
@@ -110,7 +110,7 @@ int main (int argc, char** argv) {
                }
                free (refFileContent);
                free (outFileContent);
-               if (refFileChar == outFileChar) printf ("No error testing %s\n", input);
+               if (refFileChar == outFileChar) printf ("Test passed: %s\n", input);
             }
          }
       }

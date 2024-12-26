@@ -22,15 +22,18 @@ State nextMealyState (State currentState, int input, int* output) {
       case S0:
          // Transition to S1 after '0'
          // Transition to C after '1'
-         return input == 0 ? (*output = 0), S1 : ((*output = 0), C);
+         *output = 0;
+         return input == 0 ? S1 : C;
       case S1:
          // Transition to S2 after '01'
          // Stay in S1 if input is '0'
-         return input == 1 ? (*output = 0), S2 : ((*output = 0), S1);
+         *output = 0;
+         return input == 1 ? S2 : S1;
       case S2:
          // Transition to S3 after '011'
          // Return to S1 if input is '0'
-         return input == 1 ? (*output = 0), S3 : ((*output = 0), S1);
+         *output = 0;
+         return input == 1 ? S3 : S1;
       case S3:
          // Output '1' upon seeing '0110'
          // Move to A after recognizing '0110'
@@ -44,11 +47,13 @@ State nextMealyState (State currentState, int input, int* output) {
       case B:
          // Transition to A after '110'
          // Stay in B if input is '1'
-         return input == 0 ? (*output = 0), A : ((*output = 0), B);
+         *output = 0;
+         return input == 0 ? A : B;
       case C:
          // Return to S1 if input is '0'
          // Transition to B after '11'
-         return input == 0 ? (*output = 0), S1 : ((*output = 0), B);
+         *output = 0;
+         return input == 0 ? S1 : B;
       default:
          return S0;  // Default return to initial state
    }
