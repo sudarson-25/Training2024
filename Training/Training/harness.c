@@ -90,29 +90,28 @@ int main (int argc, char** argv) {
          else if (ofp == NULL) printf ("Temporary output file does not exist");
          else {
             int refFilesize = filelength (fileno (rfp)) + 1,
-               outFilesize = filelength (fileno (ofp)) + 1, j = 0;
+               outFilesize = filelength (fileno (ofp)) + 1;
             char* refFileContent = (char*)malloc (refFilesize * sizeof (char)),
                * outFileContent = (char*)malloc (outFilesize * sizeof (char));
             fgets (refFileContent, refFilesize, rfp);
             fgets (outFileContent, outFilesize, ofp);
-            char refFileChar = refFileContent[j], outFileChar = outFileContent[j];
-            if (refFileChar == '\0' || outFileChar == '\0') printf ("File has no content!");
+            if (refFilesize == 1 || outFilesize == 1) printf ("File has no content!\n");
+            else if (refFilesize != outFilesize) printf ("Files are of different length\n");
             else {
-               int charNum = 0;
-               while (refFileChar != '\0' || outFileChar != '\0') {
-                  charNum++;
-                  if (refFileChar != outFileChar) {
-                     printf ("Test Failure %s: Error at bit no. %d, Expected %c, Actual %c\n", input, charNum, outFileChar, refFileChar);
+               int j;
+               for (j = 0; j < refFilesize - 1; j++) {
+                  if (refFileContent[j] != outFileContent[j]) {
+                     printf ("Test Failure %s: Error at bit no. %d, Expected %c, Actual %c\n", input, j, outFileContent[j], refFileContent[j]);
                      break;
                   }
-                  refFileChar = refFileContent[++j];
-                  outFileChar = outFileContent[j];
                }
+               if (refFileContent[j] == outFileContent[j]) printf ("Test passed: %s\n", input);
                free (refFileContent);
                free (outFileContent);
-               if (refFileChar == outFileChar) printf ("Test passed: %s\n", input);
             }
          }
+         fclose (rfp);
+         fclose (ofp);
       }
    }
 }
