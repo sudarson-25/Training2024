@@ -127,7 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Training.c" />
+    <Text Include="reference1.txt" />
+    <Text Include="reference2.txt" />
+    <Text Include="reference3.txt" />
+    <Text Include="reference4.txt" />
+    <Text Include="reference5.txt" />
+    <Text Include="test1in.txt" />
+    <Text Include="test2in.txt" />
+    <Text Include="test3in.txt" />
+    <Text Include="test4in.txt" />
+    <Text Include="test5in.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="harness.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
