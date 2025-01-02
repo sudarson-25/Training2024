@@ -13,7 +13,8 @@ typedef enum {
    S3,  // After '011'
    A,   // After '110'
    B,   // After '11'
-   C    // After '1'
+   C,    // After '1'
+   ERRORSTATE
 } State;
 
 // Function to get the next state and output based on the current state and input
@@ -67,8 +68,9 @@ State nextMealyState (State currentState, int input, int* output) {
          *output = 0;
          return input == 0 ? S1 : B;
       default:
-         return S0;  // Default return to initial state
+         return ERRORSTATE;  // Default return to error state
    }
+   return S0; // Return to initial state
 }
 
 static int mealy (char* inputPath, char* outputPath) {
@@ -83,6 +85,10 @@ static int mealy (char* inputPath, char* outputPath) {
       else
          while (ch != EOF && (ch == '0' || ch == '1')) {
             currentState = nextMealyState (currentState, (int)ch - '0', &output);
+            if (currentState == ERRORSTATE) {
+               printf ("ERROR\n");
+               break;
+            }
             fprintf (tfp, "%d", output);
             ch = fgetc (ifp);
          }
@@ -96,5 +102,5 @@ void main (int argc, char* argv[]) {
    if (argc == 3)
       mealy (argv[1], argv[2]);
    else
-      printf ("Error: Two arguments needed");
+      printf ("Usage: %s <InputFileName> <OutputFileName>", argv[0]);
 }
