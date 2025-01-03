@@ -25,7 +25,7 @@ static int GetValidInteger (char* prompt) {
          errno = 0;
          char* endptr = NULL;
          validInt = strtol (numberStr, &endptr, 10);
-         output = endptr != numberStr && *endptr == '\n' && errno != ERANGE && validInt > 0;
+         output = endptr != numberStr && *endptr == '\n' && errno != ERANGE;
       }
    } while (!output);
    return validInt;
@@ -43,6 +43,9 @@ int LCMCalculator (int num1, int num2) {
 int main () {
    int num1 = GetValidInteger ("Enter the number: "),
       num2 = GetValidInteger ("Enter the number: ");
-   printf ("GCD: %d\nLCM: %d", GCDCalculator (num1, num2), LCMCalculator (num1, num2));
+   if (num1 != 0 || num2 != 0)
+      printf ("GCD: %d\nLCM: %d", GCDCalculator (abs (num1), abs (num2)), LCMCalculator (abs (num1), abs (num2)));
+   else
+      printf ("Both can't be zero!");
    return 0;
 }
