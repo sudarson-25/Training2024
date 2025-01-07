@@ -40,16 +40,13 @@ static int GetValidInteger (char* prompt) {
    return validInt;
 }
 
-void Testcases () {
-   int inputs[][2] = { {1,2},{2,3},{3,5},{-45,30},{0,7} };
-   int expected[][2] = { {1,2},{1,6},{1,15},{15,90},{7,0} };
-   printf ("\n\nTestCases\n~~~~~~~~~");
-   for (int i = 0; i < sizeof (inputs) / sizeof (inputs[0]); i++)
-      if (expected[i][0] != GCDCalculator (abs (inputs[i][0]), abs (inputs[i][1])) ||
-         expected[i][1] != LCMCalculator (abs (inputs[i][0]), abs (inputs[i][1])))
-         printf ("\nFAILED");
-      else
-         printf ("\nPASSED");
+static void Testcases () {
+   int inputs[][2] = { {1,2},{2,3},{3,5},{-45,30},{0,7} },
+      expected[][2] = { {1,2},{1,6},{1,15},{15,90},{7,0} },
+      size = sizeof (inputs) / sizeof (inputs[0]), i;
+   for (i = 0; i < size && expected[i][0] == GCDCalculator (abs (inputs[i][0]), abs (inputs[i][1])) &&
+      expected[i][1] == LCMCalculator (abs (inputs[i][0]), abs (inputs[i][1])); i++);
+   printf (i == size ? "\n\nTestCases\n~~~~~~~~~\nPASSED\n" : "\n\nTestCases\n~~~~~~~~~\nFAILED\n");
 }
 
 int main () {
