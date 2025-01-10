@@ -10,8 +10,8 @@
 #include<errno.h>
 #include<stdlib.h>
 #include<stdbool.h>
-#include<string.h>
 #include<math.h>
+#include<string.h>
 
 static int GetValidInteger (char* prompt) {
    bool output;
@@ -30,27 +30,19 @@ static int GetValidInteger (char* prompt) {
    return validInt;
 }
 
-void ArmstrongChecker (int num) {
-   int digits = 0, num1, num2;
+bool ArmstrongChecker (int num) {
+   int digits = 0, tempVar = num, tempVar2 = num;
    double arm = 0;
-   num1 = num2 = num;
-   while (num1 > 0) {
-      num1 /= 10;
-      digits++;
-   }
-   while (num2 > 0) {
-      int rem = num2 % 10;
-      num2 /= 10;
-      arm += pow (rem, digits);
-   }
-   if (arm == num)
-      printf ("\nArmstrong Number!\n");
-   else
-      printf ("\nNot an armstrong number\n");
+   for (; tempVar > 0; digits++) tempVar /= 10;
+   for (; tempVar2 > 0; tempVar2 /= 10) arm += pow (tempVar2 % 10, digits);
+   return arm == num;
 }
 
 int main () {
    int num = GetValidInteger ("Enter a number: ");
-   ArmstrongChecker (num);
+   if (ArmstrongChecker (num))
+      printf ("\nArmstrong Number!\n");
+   else
+      printf ("\nNot an armstrong number\n");
    return 0;
 }
