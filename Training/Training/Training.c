@@ -29,16 +29,16 @@ static int GetValidInteger (char* prompt) {
    return validInt;
 }
 
-void Swap (int* num1, int* num2) {
-   *num1 = *num1 + *num2;
-   *num2 = *num1 - *num2;
-   *num1 = *num1 - *num2;
+void Swap (int* num, int* num2) {
+   *num = *num + *num2;
+   *num2 = *num - *num2;
+   *num = *num - *num2;
 }
 
 int main () {
-   int num1 = GetValidInteger ("Enter a number (A): "),
+   int num = GetValidInteger ("Enter a number (A): "),
       num2 = GetValidInteger ("Enter a number (B): ");
-   if (num1 != num2) Swap (&num1, &num2);
-   printf ("A: %d\nB: %d", num1, num2);
+   if (num != num2) Swap (&num, &num2);
+   printf ("A: %d\nB: %d", num, num2);
    return 0;
 }
