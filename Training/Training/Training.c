@@ -7,7 +7,7 @@
 // ------------------------------------------------------------------------------------------------
 
 #include<errno.h>
-#include <malloc.h>
+#include<malloc.h>
 #include<stdbool.h>
 #include<stdio.h>
 #include<stdlib.h>
@@ -31,10 +31,15 @@ static int GetValidInteger (char* prompt, int n) {
    return validInt;
 }
 
-void Swap (int* array, int idx1, int idx2) {
-   array[idx1] = array[idx1] + array[idx2];
-   array[idx2] = array[idx1] - array[idx2];
-   array[idx1] = array[idx1] - array[idx2];
+bool Swap (int* array, int n, int idx, int idx2) {
+   if (array == NULL || n <= 0 || idx < 0 || idx >= n || idx2 < 0 || idx2 >= n || idx == idx2)
+      return false;
+   if (array[idx] != array[idx2]) {
+      array[idx] = array[idx] + array[idx2];
+      array[idx2] = array[idx] - array[idx2];
+      array[idx] = array[idx] - array[idx2];
+   }
+   return true;
 }
 
 void PrintArray (int* array, int n) {
@@ -43,19 +48,17 @@ void PrintArray (int* array, int n) {
 
 int main () {
    srand ((unsigned int)time (NULL));
-   int n = rand () % (20 - 1 + 1) + 1, // Range [1, 20]
-      * array = malloc (n * sizeof (int)), idx1, idx2;
-   if (array == NULL) {
-      printf ("Memory allocation failed!\n");
-      return 1;
-   }
+   int* array = NULL, idx, idx2, n = rand () % (20 - 1 + 1) + 1; // Range [1, 20]
+   do
+      array = malloc (n * sizeof (int));
+   while (array == NULL);
    for (int i = 0; i < n; i++)
       array[i] = rand () % (10000 + 10000 + 1) - 10000; // Range [-10000, 10000]
    PrintArray (array, n);
-   idx1 = GetValidInteger ("\nEnter first index: ", n);
+   idx = GetValidInteger ("\nEnter first index: ", n);
    idx2 = GetValidInteger ("\nEnter the second index: ", n);
-   if (idx1 != idx2) Swap (array, idx1, idx2);
-   PrintArray (array, n);
+   if (Swap (array, n, idx, idx2)) PrintArray (array, n);
+   else printf ("\nERROR!");
    free (array);
    return 0;
 }
