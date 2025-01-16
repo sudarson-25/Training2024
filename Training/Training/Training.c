@@ -31,7 +31,7 @@ static int GetValidInteger (char* prompt, int n) {
    return validInt;
 }
 
-bool Swap (int* array, int n, int idx, int idx2) {
+bool Swapped (int* array, int n, int idx, int idx2) {
    if (array == NULL || n <= 0 || idx < 0 || idx >= n || idx2 < 0 || idx2 >= n || idx == idx2)
       return false;
    if (array[idx] != array[idx2]) {
